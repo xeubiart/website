@@ -22,7 +22,7 @@ func main() {
 	application := app.New(backendURL, os.Getenv("ENV_MODE"))
 
 	// 3. Register Routes
-	application.Router.RegisterRoutes()
+	application.Router.RegisterRoutes(application.BackendURL)
 
 	application.Start()
 }

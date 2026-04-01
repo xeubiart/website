@@ -20,10 +20,10 @@ type Router struct {
 	Proxy  *httputil.ReverseProxy
 }
 
-func (r *Router) RegisterRoutes() {
+func (r *Router) RegisterRoutes(backendURL string) {
 	r.Router.Use(middlewares.ShowCookieBanner())
 
-	r.Router.GET("/", router_pages.LandingPageRoute())
+	r.Router.GET("/", router_pages.LandingPageRoute(backendURL))
 
 	// Static pages
 	r.Router.GET("/register", utils.Render(pages_register.Index()))

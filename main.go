@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// 1. Setup Environment
-	if err := godotenv.Load("../.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		println("No .env file found, using system environment variables")
 	}
 	backendURL := os.Getenv("BACKEND_URL")

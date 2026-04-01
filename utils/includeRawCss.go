@@ -4,27 +4,15 @@ import (
 	"html/template"
 	"log"
 	"os"
-	"path/filepath"
-	"runtime"
 )
 
 func IncludeRawCSSFile(path string) template.HTML {
-	// Get the caller file
-	_, callerFile, _, ok := runtime.Caller(1) // 1 = one level up the call stack
-	if !ok {
-		log.Println("Cannot determine caller file")
-		return ""
-	}
-
-	// Build the absolute path relative to caller
-	callerDir := filepath.Dir(callerFile)
-	fullPath := filepath.Join(callerDir, path)
-
-	content, err := os.ReadFile(fullPath)
+	// Just use the path directly.
+	// If you pass "components/nav_bar/style.css", it looks in the current folder.
+	content, err := os.ReadFile(path)
 	if err != nil {
-		log.Printf("Error reading CSS file %s: %v", fullPath, err)
+		log.Printf("Error reading CSS file %s: %v", path, err)
 		return ""
 	}
-
 	return template.HTML("<style>" + string(content) + "</style>")
 }

@@ -1,0 +1,83 @@
+.eyebrown{
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .14rem;
+    font-weight: 500;
+    padding: .4rem .8rem;
+    border-radius: 100px;
+    width: fit-content;
+    text-wrap: nowrap;
+    
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    
+    color: var(--cherry);
+
+    margin-bottom: 1rem;
+}
+
+.bg-pink{
+    background-color: var(--cherry-light);
+    color: var(--cherry);
+}
+
+.bg-gray{
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.bg-gold{
+    background-color: rgba(201, 168, 76, 0.12);
+    color: #C9A84C;
+}
+
+.bg-green{
+    background-color: rgba(58, 107, 53, 0.1);
+    border: 1px solid rgba(58, 107, 53, 0.25);
+    color: #3A6B35;
+}
+
+.type-cherry{
+    &::before{
+        content: "🍒";
+        display: inline-block;
+        letter-spacing: 0px !important;
+    }
+}
+
+.type-sparkly{
+    &::before{
+        content: "✦";
+        display: inline-block;
+        letter-spacing: 0px !important;
+    }
+}
+
+.type-line{
+    &::before{
+        content: "——";
+        letter-spacing: 0px !important;
+        display: inline-block;
+        color: inherit;
+        opacity: .8;
+    }
+}
+
+.type-dot{
+    &::before{
+        content: "●";
+        letter-spacing: 0px !important;
+        display: inline-block;
+        color: inherit;
+        opacity: .8;
+    }
+}
+
+.txt-cherry{
+    color: var(--cherry);
+}
+
+.txt-gray{
+    color: var(--muted);
+}

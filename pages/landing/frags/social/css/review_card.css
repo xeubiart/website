@@ -1,0 +1,128 @@
+.social_review{
+    width: 300px;
+    overflow: hidden;
+    background-color: #fff;
+
+    flex-wrap: 0;
+    flex-shrink: 0;
+    padding: 2rem;
+    border-radius: var(--default-border-radius);
+    position: relative;
+    margin: 0 2rem;
+
+    transition: transform .2s ease-in, box-shadow .2s ease-in;
+
+
+    &:hover{
+        transform: translateY(-5px);
+        box-shadow: 0 20px 60px rgba(139, 26, 43, 0.1);
+
+        &::after{
+            width: 100%;
+        }
+    }
+
+    &::after{
+        content: "";
+        display: block;
+        position: absolute;
+        width: 0%;
+        transition: width .2s ease-in;
+        height: 4px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, var(--cherry) 0%, transparent 100%);
+    }   
+}
+
+.social_review_top{
+    display: flex;
+    align-items: center;
+    margin-bottom: .5rem;
+}
+
+.social_review_profile{
+    font-family: contrast;
+    font-size: 1.15rem;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    width: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 100px;
+    color: #fff;
+    background-color: var(--cherry);
+    font-style: italic;
+    margin-right: 1rem;
+}
+
+.social_review_name{
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.social_review_date{
+    display: block;
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 300;
+}
+
+.social_review_stars{
+    margin-left: auto;
+    & svg {
+        width: 10px;
+        aspect-ratio: 1/1;
+        fill: #E8B84B;
+    }
+}
+
+.social_review_quote{
+    font-family: contrast;
+    font-style: italic;
+    font-size: 2.6rem;
+    color: var(--cherry);
+    opacity: .4;
+    line-height: 1;
+    padding-right: 1rem;
+}
+
+.social_review_text{
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: var(--muted);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.social_review_bot{
+    display: flex;
+    justify-content: space-between;
+}
+
+.social_review_style{
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cherry);
+    background: var(--cherry-light);
+    padding: 4px 10px;
+    border-radius: 100px;
+}
+
+.social_review_source{
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+    opacity: 0.7;
+
+    & em{
+        font-style: normal;
+        margin-right: .2rem;
+    }
+}

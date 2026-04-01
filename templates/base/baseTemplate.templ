@@ -1,0 +1,58 @@
+package templates_base
+
+import "xeubiart.com/components/nav_bar"
+import "xeubiart.com/components/hot_bar"
+import "xeubiart.com/components/cookie_banner"
+import "xeubiart.com/components/footer"
+
+type FooterProps struct{
+    Visible bool
+    CTA bool
+}
+
+type Props struct{
+    Title string
+
+    Header templ.Component
+
+    Navigation bool
+    Footer *FooterProps
+}
+
+templ TemplatesBase(props Props){
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{props.Title}</title>
+
+        <link href="/file/static/css/main.css" rel="stylesheet">
+        <link href="/file/templates/base/css/main.css" rel="stylesheet">
+
+        @props.Header
+        
+    </head>
+    <body>
+        if props.Navigation{
+            @components_navBar.NavBar()
+        }
+
+        { children... }
+
+        if props.Footer != nil {
+            @components_footer.Footer(components_footer.Props{IncludeCTA: props.Footer.CTA})
+        }
+
+        if props.Navigation {
+            @components_hotBar.HotBar(components_hotBar.Props{})
+        }
+
+        if val, ok := ctx.Value("showCookieBanner").(bool); ok {
+            if val {
+                @components_cookieBanner.CookieBanner()
+            }
+        }
+    </body>
+    </html>
+}

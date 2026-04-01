@@ -1,0 +1,114 @@
+.steps{
+    background-color: var(--pink-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4rem;
+}
+
+.steps_header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    text-align: center;
+
+    & h1{
+        font-size: clamp(2.2rem, 6vw, 3.4rem);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-family: contrast;
+
+        & em{
+            font-family: inherit;
+            color: var(--cherry);
+        }
+    }
+
+    & p{
+        margin-top: 14px;
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: var(--muted);
+        max-width: 440px;
+        line-height: 1.65;
+        margin-top: 1rem;
+    }
+}
+
+.steps_container{
+    margin-top: 3rem;
+    display: grid;
+    padding-bottom: 5rem; /* TEMPORALLY FIX */
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5%;
+}
+
+.step{
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    border-radius: var(--default-border-radius);
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: 1.5px solid transparent;
+
+    &:hover{
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(139, 26, 43, 0.12);
+        border-color: rgba(139, 26, 43, 0.15);
+    }
+
+    & h2{
+        font-family: contrast;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--cherry);
+        margin-bottom: 12px;
+    }
+
+    & p{
+        font-size: 0.9rem;
+        line-height: 1.75;
+        color: var(--muted);
+        font-weight: 300;
+    }
+}
+
+.step_header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    align-items: center;
+}
+
+.step_emoji{
+    width: 60px;
+    background-color: var(--pink-light);
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    font-size: 1.5rem;
+    display: grid;
+    place-items: center;
+}
+
+.step_number{
+    font-size: 4rem;
+    color: var(--pink-light);
+    font-family: contrast;
+}
+
+@media (width > 670px) {
+    .steps{
+        padding: 5% 10%;
+    }
+
+    .steps_container{
+        grid-template-rows: unset;
+        grid-template-columns: repeat(3, 1fr);
+        padding-bottom: unset; /* TEMPORALLY FIX */
+    }
+}

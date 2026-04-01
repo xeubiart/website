@@ -1,0 +1,49 @@
+package landing_frags_steps
+
+templ Section(){
+    <section class="steps">
+        <div class="steps_header">
+            <span class="eyebrown type-sparkly bg-pink animate_on_view">Como funciona</span>
+            <h1 class="animate_on_view">Três passos para a tua <em>tatuagem dos sonhos</em></h1>
+            <p class="animate_on_view">Do primeiro contacto à arte na pele — um processo simples, pensado para te fazer sentir bem em cada etapa.</p>
+        </div>
+
+        <div class="steps_container">
+            @step(stepOpts{
+                Emoji: "🍒",
+                Number: "01",
+                Title: "Vamos nos conhecer",
+                Text: "Me conta sua ideia, referências e o que essa tatuagem significa pra você. Quanto mais eu souber, melhor o resultado.",
+            })
+            @step(stepOpts{
+                Emoji: "✏️",
+                Number: "02",
+                Title: "Criação do desenho",
+                Text: "Desenvolvo um projeto personalizado baseado na sua história. Você aprova, ajusta, e só então marcamos a sessão.",
+            })
+            @step(stepOpts{
+                Emoji: "🌟",
+                Number: "03",
+                Title: "A mágica acontece",
+                Text: "Na sessão, cuidado, conforto e precisão do início ao fim. Você sai com uma obra de arte — e uma memória para sempre.",
+            })
+        </div>
+    </section>
+}
+
+type stepOpts struct{
+    Emoji  string
+    Number string
+    Title  string
+    Text   string
+}
+templ step(opts stepOpts){
+    <div class="step animate_on_view">
+        <div class="step_header">
+            <div class="step_emoji">{opts.Emoji}</div>
+            <div class="step_number">{opts.Number}</div>
+        </div>
+        <h2>{opts.Title}</h2>
+        <p>{opts.Text}</p>
+    </div>
+}

@@ -1,0 +1,58 @@
+package components_cookieBanner
+
+import "xeubiart.com/utils"
+
+templ CookieBanner(){
+    @templ.Raw(utils.IncludeRawCSSFile("style.css"))
+
+    <div id="cookie-banner" class="cookie-banner">
+        <div class="cookie-banner__header">
+            <icon>🍒</icon>
+            <div class="cookie-banner__text">
+                <h3>Esta página usa <em>cookies</em></h3>
+                <p>Usamos cookies para melhorar a tua experiência. Podes aceitar todos ou gerir as tuas preferências. <a href="/legal/cookies">Saber mais.</a></p>
+            </div>
+        </div>
+        <div class="cookie-banner__footer">
+            <button id="cookie_accept_essentials_btn">Só essenciais</button>
+            <button id="cookie_accept_all_btn">Aceitar todos</button>
+        </div>
+    </div>
+
+    <script>
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            
+            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+        }
+
+        let holder = document.getElementById("cookie-banner")
+        setTimeout(()=>{
+            holder.classList.add("cookie-banner--visible")
+        }, 500)
+
+        document.getElementById("cookie_accept_essentials_btn").addEventListener("click", ()=>{
+            setCookie("xeubiart_cookie_consent", "true", 365);
+
+            holder.classList.remove("cookie-banner--visible")
+            setTimeout(()=>{
+                holder.parentElement.removeChild(holder)
+            }, 2000)
+        })
+
+        document.getElementById("cookie_accept_all_btn").addEventListener("click", ()=>{
+            setCookie("xeubiart_cookie_consent", "true", 365);
+            // Other cookies here
+
+            holder.classList.remove("cookie-banner--visible")
+            setTimeout(()=>{
+                holder.parentElement.removeChild(holder)
+            }, 2000)
+        })
+    </script>
+}

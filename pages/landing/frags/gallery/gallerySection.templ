@@ -1,0 +1,38 @@
+package landing_frags_gallery
+
+templ Section(){
+    <section class="gallery">
+        <div class="gallery_header">
+            <div class="gallery_title">
+                <span class="eyebrown type-line bg-gray animate_on_view">Portifólio</span>
+                <h1 class="animate_on_view">Cada traço,<br> uma <em>história</em>.</h1>
+            </div>
+        </div>
+        <div class="gallery_preview">
+            @item("Fine Line", "Fine Flower boy")
+            @item("Fine Line", "Sun and Moon")
+            @item("Blackwork", "Alone boy")
+            @item("Geometric", "It's raining")
+            @item("Fine Line", "Mine e craft")
+        </div>
+
+        <div class="gallery_bottom_container">
+            <div class="gallery_btn animate_on_view">
+                <a href="/gallery">Ver portifólio completo <span class="icon_font">&#xE80A;</span></a>
+            </div>
+            <div class="gallery_div"></div>
+            <div class="gallery_orig animate_on_view">Todos os trabalhos são originais 🍒</div>
+        </div>
+    </section>
+}
+
+templ item(tag, title string){
+    <div class="gallery_item animate_on_view">
+        <img>
+        <div class="gallery_item_overlay">
+            <div class="gallery_item_overlay_tag">{tag}</div>
+            <div class="gallery_item_overlay_tittle">{title}</div>
+            <span class="gallery_item_overlay_icon">&#xE80A;</span>
+        </div>
+    </div>
+}

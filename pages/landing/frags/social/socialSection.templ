@@ -1,0 +1,78 @@
+package landing_frags_social
+
+templ Section(){
+    <section class="social">
+        <div class="social_header">
+            <div class="social_header_txt">
+                <span class="eyebrown type-sparkly bg-pink animate_on_view">Avaliações reais</span>
+                <h1 class="animate_on_view">O que dizem<br>as minhas <em>clientes</em></h1>
+            </div>
+            <div class="social_header_rate animate_on_view">
+                <span class="social_rate_nbr">5.0</span>
+                <div class="rating-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                </div>
+                <span class="social_rate_txt">+300 avaliações verificadas</span>
+            </div>
+        </div>
+
+        <div class="social_chip_holder">
+            <span class="social_chip animate_on_view"><em>5.0</em> no Google</span>
+            <span class="social_chip animate_on_view"><em>5.0</em> no Instagram</span>
+            <span class="social_chip animate_on_view"><em>100%</em> recomendam</span>
+        </div>
+
+        <div class="social_reviews animate_on_view">
+            <div class="social_reviews_container">
+                for _ = range(5) {
+                    @review_card()
+                }
+                for _ = range(5) {
+                    @review_card()
+                }
+            </div>
+        </div>
+
+        <div class="social_featured animate_on_view">
+            <div class="social_featured_card">
+                <p>Nunca pensei que uma tatuagem pudesse me emocionar tanto. Ela não só fez uma arte — ela eternizou algo que eu carrego no coração. Voltarei para sempre.</p>
+                <div class="social_featured_profile">
+                    <div class="social_featured_picture">P</div>
+                    <div class="social_featured_info">
+                        <span class="social_featured_name">Sofia Carvalho</span>
+                        <span class="social_featured_date">Março 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+templ review_card(){
+    <div class="social_review">
+        <div class="social_review_top">
+            <div class="social_review_profile">M</div>
+            <div class="social_review_info">
+                <span class="social_review_name">Mateus Alves</span>
+                <span class="social_review_date">Agosto 2025</span>
+            </div>
+            <div class="social_review_stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            </div>
+        </div>
+        <span class="social_review_quote">"</span>
+        <p class="social_review_text">A atenção ao detalhe é incrível. Cada linha, cada sombreado pensado com tanto carinho. Minha tattoo virou obra de arte.</p>
+        <div class="social_review_bot">
+            <div class="social_review_style">Fine Line</div>
+            <div class="social_review_source"><em class="icon_font">&#xF16D;</em> instagram</div>
+        </div>
+    </div>
+}

@@ -1,0 +1,154 @@
+.social{
+    width: 100%;
+    background-color: var(--cream);
+}
+
+.social_header{
+    padding: 15% 8%;
+}
+
+.social_header_txt{
+    & h1{
+        font-family: contrast;
+        font-size: clamp(2.2rem, 4vw, 3.2rem);
+        font-weight: 900;
+        color: var(--text);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+
+        & em{
+            font-family: inherit;
+            color: var(--cherry);
+        }
+    }
+}
+
+.social_header_rate{
+    margin-top: 1.7rem;
+}
+
+.social_rate_nbr{
+    font-family: contrast;
+    font-size: 4rem;
+    color: var(--cherry);
+}
+
+.rating-stars{
+    & svg {
+        width: 15px;
+        aspect-ratio: 1/1;
+        fill: #E8B84B;
+    }
+}
+
+.social_rate_txt{
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+}
+
+.social_chip_holder{
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.social_chip{
+    color: var(--text);
+    white-space: nowrap;
+    padding: .6rem 1.2rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(139, 26, 43, 0.05);
+    border-radius: 100px;
+    background-color: #fff;
+    font-size: 0.82rem;
+
+    & em{
+        font-family: contrast;
+        color: var(--cherry);
+        margin-right: .7rem;
+    }
+}
+
+.social_reviews{
+    padding: 3rem 0;
+    width: 100%;
+    height: max-content;
+    overflow-x: hidden;
+
+    position: relative;
+
+    &::before{
+        left: 0;
+        background: linear-gradient(to right, var(--cream), transparent);
+    }
+    &::after{
+        right: 0;
+        background: linear-gradient(to right, transparent, var(--cream));
+    }
+
+    &::before,
+    &::after{
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        width: 140px;
+        z-index: 2;
+        pointer-events: none;
+    }
+}
+
+.social_reviews_container{
+    width: max-content;
+    height: max-content;
+    margin-top: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    animation: auto_scroll 20s linear infinite;
+
+    &:hover{
+        animation-play-state: paused;
+    }
+}
+
+@keyframes auto_scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@media (width > 670px) {
+    .social_header{
+        padding: 5%;
+    }
+
+    .social_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .social_header_rate{
+        margin-top: 0;
+    }
+
+    .social_reviews{
+        &::before,
+        &::after{
+            width: 40px;
+        }
+    }
+}

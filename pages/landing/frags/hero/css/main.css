@@ -1,0 +1,27 @@
+.hero{
+    width: 100%;
+    background-color: var(--cream);
+    padding: 3rem 1.8rem;
+
+    display: grid;
+    grid-template-areas: 
+        "visual"
+        "text"
+    ;
+    grid-template-rows: 1fr auto;
+    gap: 3rem;
+}
+
+@media (width > 670px) {
+    .hero{
+        grid-template-areas: 
+            "text visual"
+        ;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: unset;
+
+        padding: 3rem 10%;
+
+        gap: 20%;
+    }
+}

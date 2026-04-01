@@ -1,0 +1,95 @@
+package components_navBar
+
+import (
+    "xeubiart.com/utils"
+    "xeubiart.com/atoms/button"
+)
+
+templ NavBar(){
+    @templ.Raw(utils.IncludeRawCSSFile("style.css"))
+
+    <nav>
+        <div class="nav_utils">
+            //@lightModeToggle()
+            @lenguageSelector()
+        </div>
+
+        <div class="nav_main">
+            <ul class="nav_links">
+                <a href="/gallery">Galeria</a>
+            </ul>
+            <a href="/" class="nav_logo logo_font">Xeubiart</a>
+            <ul class="nav_links">
+                <a href="/shop">Loja</a>
+            </ul>
+        </div>
+
+        <div class="nav_account">
+            @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/login", Style: atoms_button.Light}, templ.Attributes{}) {
+                Entrar
+            }
+            @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/register", Style: atoms_button.Heavy}, templ.Attributes{}) {
+                Crie uma conta
+            }
+        </div>
+    </nav>
+}
+
+templ lightModeToggle(){
+    <script>
+        ()=>{
+            window.addEventListener("load", ()=>{
+                document.getElementById("theme_toggle").addEventListener("click", (e)=>{
+                    let root = document.documentElement;
+                    let changingTo = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+                    root.setAttribute("data-theme", changingTo);
+                })
+            }, {once: true})
+        }()
+    </script>
+
+    <button id="theme_toggle" class="light_button">
+        <svg id="icon_sun"  viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg id="icon_moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+    </button>
+}
+
+templ lenguageSelector(){
+    <script>
+        window.addEventListener("load", ()=>{
+            // Clicker listener to toggle the lenguage selector
+            let lenguage_container = document.getElementById("lang_dropdown")
+            document.getElementById("lang_button").addEventListener("click", (e)=>{
+                lenguage_container.classList.toggle("opened")
+                e.stopImmediatePropagation()
+
+                window.addEventListener("click", ()=>{
+                    lenguage_container.classList.toggle("opened")
+                }, {once: true})
+            })
+        }, {once: true})
+    </script>
+
+    <div id="lang_dropdown">
+        <button id="lang_button" class="light_button">
+            <img class="lang_flag" src="/file/static/svg/flags/br.svg">
+            <span class="lang_code">PT</span>
+            <icon>&#xE800;</icon>
+        </button>
+
+        <ul class="lang_menu">
+            <a class="lang_menu_item selected">
+                <img class="lang_flag" src="/file/static/svg/flags/br.svg">
+                <span class="lang_code">Portugês</span>
+            </a>
+            <a class="lang_menu_item">
+                <img class="lang_flag" src="/file/static/svg/flags/us.svg">
+                <span class="lang_code">Inglês</span>
+            </a>
+            <a class="lang_menu_item">
+                <img class="lang_flag" src="/file/static/svg/flags/es.svg">
+                <span class="lang_code">Espanhol</span>
+            </a>
+        </ul>
+    </div>
+}

@@ -1,0 +1,47 @@
+package atoms_button
+
+import (
+	"xeubiart.com/utils"
+)
+
+type Style string
+
+const(
+    Heavy Style = "heavy_button"
+    Light Style = "light_button"
+)
+
+type DefaultProps struct{
+    Style      Style
+    RedirectTo string
+}
+
+var loadCSS = templ.NewOnceHandle()
+var loadJS = templ.NewOnceHandle()
+
+templ Default(props DefaultProps, attrs templ.Attributes){
+    @loadCSS.Once(){
+        @templ.Raw(utils.IncludeRawCSSFile("default.css"))
+    }
+
+    if props.RedirectTo != "" {
+        <a href={props.RedirectTo} class={string(props.Style), "btn-default"}>
+            { children... }
+        </a>
+    } else {
+        <button class={string(props.Style), "btn-default"} { attrs... }>
+            { children... }
+        </button>
+
+        @loadJS.Once(){
+            <script>
+                document.addEventListener("click", (e)=>{
+                    const btn = e.target.closest("button[data-fetch]")
+                    if(!btn) return
+
+                    btn.classList.add("btn--loading")
+                })
+            </script>
+        }
+    }
+}

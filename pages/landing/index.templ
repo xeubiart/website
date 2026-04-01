@@ -1,0 +1,46 @@
+package pages_landing
+
+import "xeubiart.com/pages/landing/frags/hero"
+import "xeubiart.com/pages/landing/frags/about"
+import "xeubiart.com/pages/landing/frags/gallery"
+import "xeubiart.com/pages/landing/frags/social"
+import "xeubiart.com/pages/landing/frags/steps"
+import "xeubiart.com/templates/base"
+
+templ Index(){
+    @templates_base.TemplatesBase(templates_base.Props{
+        Title: "Xeubiart", 
+        Header: header(),
+        Navigation: true, 
+        Footer: &templates_base.FooterProps{
+            Visible: true, 
+            CTA: true,
+        },
+    }){
+        @landing_frags_hero.Section()
+        @landing_frags_about.Section()
+        @landing_frags_gallery.Section()
+        @landing_frags_social.Section()
+        @landing_frags_steps.Section()
+    }
+}
+
+templ header(){
+    <link href="/file/static/css/eyebrown.css" rel="stylesheet">
+    <link href="/file/static/css/animate_on_view.css" rel="stylesheet">
+    <script src="/file/static/js/animate_on_view.js" defer></script>
+
+    <link href="/file/pages/landing/frags/hero/css/main.css" rel="stylesheet">
+    <link href="/file/pages/landing/frags/hero/css/text.css" rel="stylesheet">
+    <link href="/file/pages/landing/frags/hero/css/visuals.css" rel="stylesheet">
+
+    <link href="/file/pages/landing/frags/about/css/main.css" rel="stylesheet">
+
+    <link href="/file/pages/landing/frags/gallery/css/main.css" rel="stylesheet">
+
+    <link href="/file/pages/landing/frags/social/css/main.css" rel="stylesheet">
+    <link href="/file/pages/landing/frags/social/css/featured.css" rel="stylesheet">
+    <link href="/file/pages/landing/frags/social/css/review_card.css" rel="stylesheet">
+
+    <link href="/file/pages/landing/frags/steps/css/main.css" rel="stylesheet">
+}

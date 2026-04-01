@@ -1,0 +1,128 @@
+.btn-default{
+    display: block;
+    text-align: center;
+    cursor: pointer;
+
+    & em,
+    & icon {
+        font-family: icons;
+        font-style: normal;
+        margin-left: .5rem;
+        color: inherit;
+
+        transition: transform .2s ease;
+        display: inline-block;
+    }
+}
+
+.heavy_button{
+    
+    font-family: contrast;
+    border-radius: 100px;
+    padding: 1rem 2rem;
+    text-wrap: nowrap;
+    
+    box-shadow: var(--shadow-default);
+    color: var(--cream);
+    background-color: var(--cherry);
+
+    transition: 
+        background-color 0.2s, 
+        transform 0.15s;
+
+    &:hover{
+        border-color: var(--cherry-dark);
+        background-color: var(--cherry-dark);
+        transform: translateY(-1px);      
+        
+        & em {
+            transform: translateX(3px);
+        }
+    }
+}
+
+.btn--loading{
+    color: transparent !important;
+    cursor: wait;
+    animation: fetching_data-bg 2s ease-in-out infinite;
+
+    &::after{
+        content: "\E838";
+        font-family: icons;
+        color: #fff;
+        font-size: 1.5rem;
+
+        display: block;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        animation: fetching_data-spin 5s linear infinite;
+    }
+
+    &:hover{
+        border-color: inherit;
+        background-color: var(--cherry);
+        transform: unset;      
+        
+        & em {
+            transform: unset;
+        }
+    }
+}
+
+@keyframes fetching_data-bg {
+    0%, 100%{
+        background-color: var(--cherry);
+    }
+    50%{
+        background-color: color-mix(in srgb, var(--cherry) 75%, white);
+    }
+}
+
+@keyframes fetching_data-spin {
+    from{
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to{
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.heavy_button:disabled{
+    background-color: var(--muted);
+    color: #fff;
+    border: var(--border-muted);
+    box-shadow: none;
+    cursor: not-allowed;
+
+    &:hover{
+        transform: none;
+        
+        & em {
+            transform: none;
+        }
+    }
+}
+
+/* Light styles */
+
+.light_button{
+    width: 100%;
+    background: none;
+    color: var(--text);
+    border: var(--border-default);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 11px 22px;
+    border-radius: 100px;
+    transition: border-color 0.2s, color 0.2s;
+
+    &:hover{
+        border-color: var(--cherry);
+        color: var(--cherry);
+    }
+}

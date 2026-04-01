@@ -1,0 +1,62 @@
+package landing_frags_hero
+
+import "xeubiart.com/atoms/button"
+
+templ Section(){
+    <section class="hero">
+        <div class="hero_text">
+            <span class="eyebrown type-line animate_on_view">Tatuadora Artística</span>
+            <h1 class="animate_on_view">Delicadeza<br><em>que marca.</em></h1>
+            <p class="hero_text__description animate_on_view">Do traço leve ao marcante, cada tatuagem feita para refletir quem você é. Arte na pele, identidade para sempre.</p>
+            <div class="hero_text__CTA animate_on_view">
+                @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/appointment", Style: atoms_button.Heavy}, templ.Attributes{}) {
+                    Agende já
+                }
+                <a href="/gallery" class="hero_btn_sec">Ver portifólio</a>
+            </div>
+            <div class="hero_status animate_on_view">
+                <div class="hero_status__item">
+                    <span class="hero_status__item_num">7+</span>
+                    <span class="hero_status__item_txt">Anos de exp.</span>
+                </div>
+                <div class="hero_status__divider"></div>
+                <div class="hero_status__item">
+                    <span class="hero_status__item_num">500+</span>
+                    <span class="hero_status__item_txt">Tatuagens</span>
+                </div>
+                <div class="hero_status__divider"></div>
+                <div class="hero_status__item">
+                    <span class="hero_status__item_num">5★</span>
+                    <span class="hero_status__item_txt">Avaliação</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero_visual animate_on_view">
+            <div class="hero_mascot">
+                @style("Fine")
+                @style("Floral")
+                @style("Minimalista")
+                @style("Blackwork")
+                @style("Autorais")
+
+                <div class="hero_spinning_disc">Arte<br>na<br>pele ✦</div>
+            </div>
+
+        </div>
+    </section>
+}
+
+templ style(title string){
+    <div class="hero_style">
+        <div class="hero_style_wrapper">
+            <div class="hero_style_popup">
+                <img>
+                <div class="hero_style_popup__description">
+                    <span>Clique para ver mais.</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero_style_chip">{title}</div>
+    </div>
+}

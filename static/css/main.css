@@ -1,0 +1,111 @@
+*{
+    margin: unset;
+    padding: unset;
+    border: unset;
+    outline: unset;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+    color: var(--text);
+    transition: 
+        background-color 0.25s ease, 
+        border-color 0.25s ease, 
+        color 0.15s ease;
+    user-select: none;
+}
+
+a {text-decoration: none;}
+
+:root{
+    --cream: #FAF5EE;
+    --cherry: #8B1A2B;
+    --cherry-light: rgba(139, 26, 43, 0.08);
+    --cherry-dark: #5C0F1A;
+    --text: #1a1a1a;
+    --border: rgba(139,26,43,0.18);
+    --muted: #999;
+    --pink-light: #F5E6E8;
+
+    --default-border-radius: 15px;
+    --header-height: 70px;
+
+    --border-default: 1px solid var(--border);
+    --border-cherry: 1px solid var(--cherry);
+    --border-muted: 1px solid var(--muted);
+
+    --shadow-default: 0 8px 28px rgba(139, 26, 43, 0.35);
+}   
+
+[data-theme="dark"] {
+    --cream:        #141010;
+    --card-bg:      #1E1818;
+    --panel-bg:     #0E0A0A;
+    --text:         #F0EAE2;
+    --muted:        #a8a09d;
+    --cherry:       #B0253A;
+    --cherry-dark:  #8B1A2B;
+    --cherry-light: rgba(176,37,58,0.12);
+    --border:       rgba(164, 90, 101, 0.312);
+    --pink-light:   #211618;
+}
+
+.no_scroll{
+    overflow: hidden;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+@font-face {
+    font-family: icons;
+    src: url("/file/static/font/icons.ttf");
+}
+
+.icon_font{
+    font-family: icons;
+}
+
+@font-face {
+    font-family: logo;
+    src: url("/file/static/font/logo.ttf");
+}
+
+.logo_font{
+    font-family: logo;
+}
+
+@font-face {
+    font-family: contrast;
+    src: url("/file/static/font/contrast.ttf");
+}
+
+.contrast_font{
+    font-family: contrast;
+}
+
+.title-default{
+    font-family: contrast;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+
+    & em{
+        font-family: inherit;
+        color: var(--cherry);
+    }
+}
+
+.paragraph-default{
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+icon {
+    font-family: icons;
+}

@@ -1,0 +1,44 @@
+package components_hotBar
+
+import "xeubiart.com/utils"
+
+type Item string
+
+const(
+    Home        Item = "home"
+    Gallery     Item = "gallery"
+    Appointment Item = "appointment"
+    Shop        Item = "shop"
+    Profile     Item = "profile"
+)
+
+type Props struct{
+    Selected Item
+}
+
+templ HotBar(props Props){
+    @templ.Raw(utils.IncludeRawCSSFile("style.css"))
+
+    <div class="hot_bar">
+        <a if props.Selected == Home { class="hot_bar_item active" } else { class="hot_bar_item" href="/" }>
+            <span class="icon_font hot_bar_item_icon">&#xE802;</span>
+            <span class="hot_bar_item_text">Início</span>
+        </a>
+        <a if props.Selected == Gallery { class="hot_bar_item active" } else { class="hot_bar_item" href="/gallery" }>
+            <span class="icon_font hot_bar_item_icon">&#xE805;</span>
+            <span class="hot_bar_item_text">Galeria</span>
+        </a>
+        <a if props.Selected == Appointment { class="hot_bar_item accent active" } else { class="hot_bar_item accent" href="/appointment" }>
+            <span class="icon_font hot_bar_item_icon">&#xE804;</span>
+            <span class="hot_bar_item_text">Agendar</span>
+        </a>
+        <a if props.Selected == Shop { class="hot_bar_item active" } else { class="hot_bar_item" href="/shop" }>
+            <span class="icon_font hot_bar_item_icon">&#xE808;</span>
+            <span class="hot_bar_item_text">Loja</span>
+        </a>
+        <a if props.Selected == Profile { class="hot_bar_item active" } else { class="hot_bar_item" href="/profile" }>
+            <span class="icon_font hot_bar_item_icon">&#xE809;</span>
+            <span class="hot_bar_item_text">Perfil</span>
+        </a>
+    </div>
+}

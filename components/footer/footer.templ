@@ -1,0 +1,105 @@
+package components_footer
+
+import (
+	"xeubiart.com/utils"
+	"xeubiart.com/atoms/button"
+)
+
+var loadCSS = templ.NewOnceHandle()
+
+type Props struct{
+    IncludeCTA bool
+}
+
+templ Footer(props Props){
+    @templ.Raw(utils.IncludeRawCSSFile("style.css"))
+    
+    <footer>
+        <div class="footer_divider"></div>
+        <div class="footer_grain"></div>
+        <div class="footer_container">
+            <div class="footer_brand">
+                <a href="/" class="logo_font">Xeubiart</a>
+                <p>Arte&nbsp;feita&nbsp;com&nbsp;<em>intenção</em>,&nbsp;tatuada&nbsp;com&nbsp;cuidado.&nbsp;<br>&nbsp;Porto,&nbsp;Portugal.</p>
+            </div>
+
+            <div class="cherry_divider">🍒</div>
+
+            <div class="footer_nav">
+                <div class="footer_nav_column">
+                    <h4 class="footer_title">Estúdio</h4>
+                    <ul class="footer_nav_column_holder">
+                        <li class="footer_nav_column_link">Sobre mim</li>
+                        <a href="/gallery" class="footer_nav_column_link">Portifólio</a>
+                        <li class="footer_nav_column_link">Estilos</li>
+                        <li class="footer_nav_column_link">Processo</li>
+                    </ul>
+                </div>
+
+                <div class="footer_nav_column">
+                    <h4 class="footer_title">Serviços</h4>
+                    <ul class="footer_nav_column_holder">
+                        <a href="/appointment" class="footer_nav_column_link">Marcar sessão</a>
+                        <li class="footer_nav_column_link">Exclusivas do mes</li>
+                        <li class="footer_nav_column_link">Flash tattoos</li>
+                        <li class="footer_nav_column_link">Cursos</li>
+                    </ul>
+                </div>
+
+                <div class="footer_nav_column">
+                    <h4 class="footer_title">Cuidados</h4>
+                    <ul class="footer_nav_column_holder">
+                        <li class="footer_nav_column_link">Preparação</li>
+                        <li class="footer_nav_column_link">Cicatrização</li>
+                        <li class="footer_nav_column_link">Retoque grátis</li>
+                        <li class="footer_nav_column_link">FAQ</li>
+                    </ul>
+                </div>
+
+                <div class="footer_nav_column">
+                    <h4 class="footer_title">Conta</h4>
+                    <ul class="footer_nav_column_holder">
+                        <a href="/login" class="footer_nav_column_link">Entrar</a>
+                        <a href="/register" class="footer_nav_column_link">Registrar</a>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer_social">
+                <h4 class="footer_title">Redes & Contato</h4>
+                <div class="footer_social_container">
+                    <a target="_blank" href="https://www.instagram.com/xeubiart_/" class="footer_social_link"><span class="icon_font">&#xF16D;</span>xeubiart_</a>
+                    <a class="footer_social_link"><span>&#xE81D;</span>xeubiart</a>
+                    <a class="footer_social_link"><span>&#xF09A;</span>xeubiart</a>
+                    <a target="_blank" href="mailto:hi@xeubiart.com" class="footer_social_link"><span class="icon_font">&#xE803;</span>hi@xeubiart.com</a>
+                    <a target="_blank" href="https://wa.me/351910338381" class="footer_social_link"><span class="icon_font">&#xF232;</span>+351 910 338 381</a>
+                </div>
+            </div>
+
+            if props.IncludeCTA {
+                <div class="footer_CTA">
+                    <div class="footer_CTA_txt">
+                        <div class="red_eye_brown">✦ Próxima sessão</div>
+                        <h3>A tua pele merece <br> <em>arte de verdade</em></h3>
+                        <p>Agenda uma consulta gratuita — sem compromisso.</p>
+                    </div>
+                    @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/appointment", Style: atoms_button.Heavy}, templ.Attributes{}) {
+                        Marcar sessão <em>&#xE80A;</em>
+                    }
+                </div>
+            }
+
+
+            <div class="footer_bottom">
+                <p>© 2026 <em>Xeubiart</em> — Todos&nbsp;os&nbsp;direitos&nbsp;reservados. Feito&nbsp;com&nbsp;<span class="cherry_beat">🍒</span>&nbsp;em&nbsp;Porto.</p>
+                <div class="legal_links">
+                    <a href="/legal/privacy">Privacidade</a>
+                    <span>✦</span>
+                    <a href="/legal/terms">Termos</a>
+                    <span>✦</span>
+                    <a href="/legal/cookies">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+}

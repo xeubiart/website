@@ -1,0 +1,124 @@
+.about{
+    width: 100%;
+    background-color: var(--cream);
+
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding: 2rem 2rem 5rem;
+    gap: 5%;
+}
+
+.about_img{
+    place-self: center;
+    width: 90%;
+    max-width: 350px;
+    aspect-ratio: 3/4;
+    margin: 1.5rem 0;
+
+    position: relative;
+
+    background-image: url("/file/pages/landing/img/test.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@keyframes live-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(58, 107, 53, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(58, 107, 53, 0.08);
+    }
+}
+
+.about_year{
+    position: absolute;
+    left: -30px;
+    bottom: -30px;
+
+    background-color: var(--cherry);
+    color: var(--cream);
+
+    padding: 1.3rem 1.8rem;
+    box-shadow: 0 10px 32px rgba(139, 26, 43, 0.3);
+    
+    border-radius: var(--default-border-radius);
+
+    & span:last-of-type{
+        font-family: contrast;
+
+        font-size: 1.9rem;
+        font-weight: 900;
+        line-height: .6;
+
+        opacity: 1;
+        letter-spacing: unset;
+    }
+    
+    & span {
+        display: block;
+        font-style: normal;
+        color: inherit;
+
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.82;
+    }
+}
+
+.about_tag{
+    position: absolute;
+}
+
+.about_txt{
+    height: fit-content;
+}
+
+.about_txt > h1 {
+    color: var(--text);
+    font-family: contrast;
+    font-size: clamp(2.6rem, 10vw, 3.5rem);
+    line-height: 1.08;
+    
+    & em{
+        color: var(--cherry);
+        font-family: inherit;
+        font-style: italic;
+    }
+}
+
+.about_div{
+    width: 40px;
+    height: 1px;
+    background-color: var(--cherry);
+
+    margin: 2rem 0;
+}
+
+.about_txt > p{
+    max-width: 450px;
+    color: var(--muted);
+    line-height: 1.9;
+    font-size: .95rem;
+}
+
+@media (width > 670px) {
+    .about{
+        grid-template-rows: unset;
+        grid-template-columns: 1fr 1fr;
+        padding: 3rem 10%;
+        gap: 10%;
+    }
+
+    .about_img{
+        width: 100%;
+        aspect-ratio: 3/4;
+    }
+
+    .about_eyebrow{
+        margin-bottom: 3rem;
+    }
+}

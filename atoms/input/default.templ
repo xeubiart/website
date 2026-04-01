@@ -1,0 +1,49 @@
+package atoms_input
+
+import (
+	"xeubiart.com/utils"
+)
+
+type DefaultProps struct{
+    Label string
+    Icon  string
+    Type  string
+}
+
+var loadCSS = templ.NewOnceHandle()
+var loadJS = templ.NewOnceHandle()
+
+templ Default(props DefaultProps, attrs templ.Attributes){
+    @loadCSS.Once(){
+        @templ.Raw(utils.IncludeRawCSSFile("default.css"))
+    }
+
+    @loadJS.Once(){
+        <script>
+            window.addEventListener("load", ()=>{
+                document.querySelectorAll(".input_wrap:has(button)").forEach(item => {
+                    item.children[1].children[2].addEventListener("click", (e)=>{
+                        if(e.target.parentElement.children[1].type === "text"){
+                            e.target.parentElement.children[1].type = "password"
+                            e.target.innerHTML = "&#xE806;"
+                        } else {
+                            e.target.parentElement.children[1].type = "text"
+                            e.target.innerHTML = "&#xE807;"
+                        }
+                    })
+                });
+            })
+        </script>
+    }
+
+    <div class="input_wrap">
+        <label>{props.Label}</label>
+        <div class="input_inner">
+            <span class="input_icon">{props.Icon}</span>
+            <input { attrs... }>
+            if props.Type == "password" {
+                <button class="icon_font">&#xE806;</button>
+            }
+        </div>
+    </div>
+}

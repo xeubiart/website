@@ -196,8 +196,9 @@ nav{
 
 .nav_account{
     grid-area: account;
-
     place-self: center end;
+
+    width: fit-content;
     display: none;
 }
 
@@ -205,6 +206,23 @@ nav{
     border-radius: 100px;
     padding: .5rem 1rem;
     text-wrap: nowrap;
+}
+
+.nav_profile{
+    width: fit-content;
+    height: 100%;
+    display: none;
+
+    align-items: center;
+    gap: 1.5rem;
+
+    place-self: center end;
+    
+    & span{
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: var(--cherry);
+    }
 }
 
 @media (width > 670px) {
@@ -240,6 +258,10 @@ nav{
         & > a:last-of-type {
             margin-right: 0;
         }
+    }
+    
+    .nav_profile{
+        display: flex;
     }
 
     .nav_links{

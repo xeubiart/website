@@ -7,17 +7,25 @@ import "xeubiart.com/pages/landing/frags/social"
 import "xeubiart.com/pages/landing/frags/steps"
 import "xeubiart.com/templates/base"
 
-templ Index(){
+type Props struct{
+    Username string
+}
+
+templ Index(props Props){
     @templates_base.TemplatesBase(templates_base.Props{
         Title: "Xeubiart", 
         Header: header(),
-        Navigation: true, 
+        Navigation: &templates_base.NavProps{
+            Visible: true,
+            Username: props.Username,
+        }, 
         Footer: &templates_base.FooterProps{
             Visible: true, 
             CTA: true,
         },
     }){
         @landing_frags_hero.Section()
+        <div class="cherry_divider">🍒</div>
         @landing_frags_about.Section()
         @landing_frags_gallery.Section()
         @landing_frags_social.Section()

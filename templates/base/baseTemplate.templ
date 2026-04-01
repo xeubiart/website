@@ -10,12 +10,17 @@ type FooterProps struct{
     CTA bool
 }
 
+type NavProps struct{
+    Visible bool
+    Username string
+}
+
 type Props struct{
     Title string
 
     Header templ.Component
 
-    Navigation bool
+    Navigation *NavProps
     Footer *FooterProps
 }
 
@@ -28,14 +33,17 @@ templ TemplatesBase(props Props){
         <title>{props.Title}</title>
 
         <link href="/file/static/css/main.css" rel="stylesheet">
+        <link href="/file/static/css/cherry_divider.css" rel="stylesheet">
         <link href="/file/templates/base/css/main.css" rel="stylesheet">
 
         @props.Header
         
     </head>
     <body>
-        if props.Navigation{
-            @components_navBar.NavBar()
+        if props.Navigation.Visible {
+            @components_navBar.NavBar(components_navBar.Props{
+                Username: props.Navigation.Username,
+            })
         }
 
         { children... }
@@ -44,8 +52,10 @@ templ TemplatesBase(props Props){
             @components_footer.Footer(components_footer.Props{IncludeCTA: props.Footer.CTA})
         }
 
-        if props.Navigation {
-            @components_hotBar.HotBar(components_hotBar.Props{})
+        if props.Navigation.Visible {
+            @components_hotBar.HotBar(components_hotBar.Props{
+                IsUserLogged: props.Navigation.Username != "",
+            })
         }
 
         if val, ok := ctx.Value("showCookieBanner").(bool); ok {

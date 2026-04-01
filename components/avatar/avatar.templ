@@ -1,0 +1,15 @@
+package components_avatar
+
+import "xeubiart.com/utils"
+
+templ Avatar(profileLink, username string){
+    @templ.Raw(utils.IncludeRawCSSFile("./components/avatar/style.css"))
+
+    <a href="/profile" class="avatar">
+        if profileLink != "" {
+            <img src={profileLink}>
+        } else {
+            <span>{string([]rune(username)[0])}</span>
+        }
+    </a>
+}

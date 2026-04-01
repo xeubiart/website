@@ -14,6 +14,9 @@ const(
 
 type Props struct{
     Selected Item
+    // TODO make this a enum
+    AppointmentStatus string
+    IsUserLogged bool
 }
 
 templ HotBar(props Props){
@@ -36,9 +39,17 @@ templ HotBar(props Props){
             <span class="icon_font hot_bar_item_icon">&#xE808;</span>
             <span class="hot_bar_item_text">Loja</span>
         </a>
-        <a if props.Selected == Profile { class="hot_bar_item active" } else { class="hot_bar_item" href="/profile" }>
+
+        {{ 
+            link := "/register"
+            if props.IsUserLogged {
+                link = "/profile"
+            }
+        }}
+        <a if props.Selected == Profile { class="hot_bar_item active" } else { class="hot_bar_item" href={link} }>
             <span class="icon_font hot_bar_item_icon">&#xE809;</span>
             <span class="hot_bar_item_text">Perfil</span>
         </a>
+        
     </div>
 }

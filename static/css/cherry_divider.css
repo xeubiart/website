@@ -1,0 +1,19 @@
+.cherry_divider{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    &::before{
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(139, 26, 43, 0.6), rgba(139, 26, 43, 0.15)); 
+    }
+
+    &::after{
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(-90deg, rgba(139, 26, 43, 0.6), rgba(139, 26, 43, 0.15)); 
+    }
+}

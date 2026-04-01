@@ -8,11 +8,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"xeubiart.com/app/middlewares"
+	router_pages "xeubiart.com/app/router/pages"
 	"xeubiart.com/utils"
 
 	pages_login "xeubiart.com/pages/credentials/login"
 	pages_register "xeubiart.com/pages/credentials/register"
-	pages_landing "xeubiart.com/pages/landing"
 )
 
 type Router struct {
@@ -23,7 +23,9 @@ type Router struct {
 func (r *Router) RegisterRoutes() {
 	r.Router.Use(middlewares.ShowCookieBanner())
 
-	r.Router.GET("/", utils.Render(pages_landing.Index()))
+	r.Router.GET("/", router_pages.LandingPageRoute())
+
+	// Static pages
 	r.Router.GET("/register", utils.Render(pages_register.Index()))
 	r.Router.GET("/login", utils.Render(pages_login.Index()))
 

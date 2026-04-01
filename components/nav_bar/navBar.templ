@@ -3,9 +3,15 @@ package components_navBar
 import (
     "xeubiart.com/utils"
     "xeubiart.com/atoms/button"
+	"xeubiart.com/components/avatar"
+	"strings"
 )
 
-templ NavBar(){
+type Props struct{
+    Username string
+}
+
+templ NavBar(props Props){
     @templ.Raw(utils.IncludeRawCSSFile("./components/nav_bar/style.css"))
 
     <nav>
@@ -24,14 +30,21 @@ templ NavBar(){
             </ul>
         </div>
 
-        <div class="nav_account">
-            @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/login", Style: atoms_button.Light}, templ.Attributes{}) {
-                Entrar
-            }
-            @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/register", Style: atoms_button.Heavy}, templ.Attributes{}) {
-                Crie uma conta
-            }
-        </div>
+        if props.Username == "" {
+            <div class="nav_account">
+                @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/login", Style: atoms_button.Light}, templ.Attributes{}) {
+                    Entrar
+                }
+                @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/register", Style: atoms_button.Heavy}, templ.Attributes{}) {
+                    Crie uma conta
+                }
+            </div>   
+        } else {
+            <div class="nav_profile">
+                <span>Hi {strings.Split(props.Username, " ")[0]}</span>
+                @components_avatar.Avatar("", props.Username)
+            </div> 
+        }
     </nav>
 }
 

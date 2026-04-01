@@ -63,7 +63,7 @@ func New(backendURL string, envMode string) *App {
 func (app *App) Start() {
 	// If we are on local dev, just use standard Gin Run
 	if app.Mode == DevMode {
-		app.Router.Router.Run(":8080")
+		app.Router.Router.Run("localhost:9999")
 		return
 	}
 

@@ -1,0 +1,23 @@
+.avatar{
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+
+    background-color: var(--cherry);
+
+    display: grid;
+    place-items: center;
+
+    & img{
+
+    }
+
+    & span{
+        color: #fff;
+        font-family: contrast;
+        font-style: italic;
+        font-weight: bolder;
+        font-size: 1.1rem;
+        line-height: .8;
+    }
+}

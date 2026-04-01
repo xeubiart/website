@@ -54,6 +54,7 @@ a {text-decoration: none;}
 
 body{
     overflow-x: hidden;
+    background-color: var(--cream);
 }
 
 @font-face {

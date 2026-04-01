@@ -94,7 +94,7 @@ footer{
 }
 
 .footer_brand{
-    max-width: 250px;
+    max-width: 300px;
 
     & a{
         display: block;
@@ -271,6 +271,7 @@ footer{
     & p{
         min-width: 0;
         color: inherit;
+        text-align: center;
     }
 }
 
@@ -317,6 +318,10 @@ footer{
     .footer_bottom{
         flex-direction: row;
         justify-content: space-between;
+
+        & p{
+            text-align: start;
+        }
     }
 }
 

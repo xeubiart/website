@@ -17,7 +17,7 @@ type Props struct{
 }
 
 templ HotBar(props Props){
-    @templ.Raw(utils.IncludeRawCSSFile("style.css"))
+    @templ.Raw(utils.IncludeRawCSSFile("./components/hot_bar/style.css"))
 
     <div class="hot_bar">
         <a if props.Selected == Home { class="hot_bar_item active" } else { class="hot_bar_item" href="/" }>

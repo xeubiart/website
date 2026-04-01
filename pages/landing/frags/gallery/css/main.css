@@ -86,7 +86,7 @@
     }
 
     & .gallery_item:nth-child(2) {
-        grid-column: 7 / 12;
+        grid-column: 7 / 13;
         grid-row: 1 / 2;
     }
 
@@ -96,13 +96,13 @@
     }
 
     & .gallery_item:nth-child(4) {
-        grid-column: 6 / 12;
+        grid-column: 6 / 13;
         grid-row: 2 / 3;
     }
 
     & .gallery_item:nth-child(5) {
         display: block;
-        grid-column: 1 / 12;
+        grid-column: 1 / 13;
         grid-row: 3 / 3;
     }
 }

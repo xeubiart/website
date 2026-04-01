@@ -15,7 +15,7 @@ var loadJS = templ.NewOnceHandle()
 
 templ Default(props DefaultProps, attrs templ.Attributes){
     @loadCSS.Once(){
-        @templ.Raw(utils.IncludeRawCSSFile("default.css"))
+        @templ.Raw(utils.IncludeRawCSSFile("./atoms/input/default.css"))
     }
 
     @loadJS.Once(){

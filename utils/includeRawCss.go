@@ -4,12 +4,15 @@ import (
 	"html/template"
 	"log"
 	"os"
+	"strings"
 )
 
 func IncludeRawCSSFile(path string) template.HTML {
-	content, err := os.ReadFile(path)
+	cleanPath := strings.TrimPrefix(path, "/build/")
+
+	content, err := os.ReadFile(cleanPath)
 	if err != nil {
-		log.Printf("Error reading CSS file %s: %v", path, err)
+		log.Printf("Error reading CSS file %s: %v", cleanPath, err)
 		return ""
 	}
 

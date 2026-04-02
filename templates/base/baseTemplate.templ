@@ -13,6 +13,7 @@ type FooterProps struct{
 type NavProps struct{
     Visible bool
     Username string
+    SelectedPage components_hotBar.Item
 }
 
 type Props struct{
@@ -33,8 +34,11 @@ templ TemplatesBase(props Props){
         <title>{props.Title}</title>
 
         <link href="/file/static/css/main.css" rel="stylesheet">
+        <link href="/file/templates/base/css/main.css" rel="stylesheet">
         <link href="/file/static/css/cherry_divider.css" rel="stylesheet">
         <link href="/file/templates/base/css/main.css" rel="stylesheet">
+
+        <link rel="icon" type="image/x-icon" href="/file/static/svg/xeubiart.svg">
 
         @props.Header
         
@@ -54,6 +58,7 @@ templ TemplatesBase(props Props){
 
         if props.Navigation.Visible {
             @components_hotBar.HotBar(components_hotBar.Props{
+                Selected: props.Navigation.SelectedPage,
                 IsUserLogged: props.Navigation.Username != "",
             })
         }

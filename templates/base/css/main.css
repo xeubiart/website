@@ -1,0 +1,5 @@
+body {
+    & > .cherry_divider{
+        margin: 0 2rem;
+    }
+}

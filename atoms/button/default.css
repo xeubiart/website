@@ -1,5 +1,8 @@
 .btn-default{
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     text-align: center;
     cursor: pointer;
 
@@ -45,6 +48,7 @@
     color: transparent !important;
     cursor: wait;
     animation: fetching_data-bg 2s ease-in-out infinite;
+    position: relative;
 
     &::after{
         content: "\E838";

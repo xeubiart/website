@@ -42,13 +42,17 @@ templ HotBar(props Props){
 
         {{ 
             link := "/register"
+            icon := "\uE81B"
+            text := "Entrar"
             if props.IsUserLogged {
                 link = "/profile"
+                icon = "\uE809"
+                text = "Perfil"
             }
         }}
         <a if props.Selected == Profile { class="hot_bar_item active" } else { class="hot_bar_item" href={link} }>
-            <span class="icon_font hot_bar_item_icon">&#xE809;</span>
-            <span class="hot_bar_item_text">Perfil</span>
+            <span class="icon_font hot_bar_item_icon">{icon}</span>
+            <span class="hot_bar_item_text">{text}</span>
         </a>
         
     </div>

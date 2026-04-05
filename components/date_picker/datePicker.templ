@@ -1,0 +1,171 @@
+package components_datePicker
+
+import (
+	"encoding/json"
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
+	"xeubiart.com/app/middlewares"
+)
+
+type appointment struct {
+	Duration    string `json:"duration"`
+	ScheduledTo string `json:"scheduledTo"`
+}
+
+templ DatePicker(month int, year int) {
+	{{
+		now := time.Now()
+		targetMonth := month
+		targetYear := year
+
+		// Inicialização de valores padrão
+		if targetMonth == 0 { targetMonth = int(now.Month()) }
+		if targetYear == 0 { targetYear = now.Year() }
+
+		displayDate := time.Date(targetYear, time.Month(targetMonth), 1, 0, 0, 0, 0, now.Location())
+		
+		// --- LÓGICA DE LIMITES (6 MESES) ---
+		minDate := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, now.Location())
+		maxDate := time.Date(now.Year(), now.Month()+6, 1, 0, 0, 0, 0, now.Location())
+
+		if displayDate.Before(minDate) {
+			displayDate = minDate
+			targetMonth = int(minDate.Month()); targetYear = minDate.Year()
+		} else if displayDate.After(maxDate) {
+			displayDate = maxDate
+			targetMonth = int(maxDate.Month()); targetYear = maxDate.Year()
+		}
+
+		prevDate := displayDate.AddDate(0, -1, 0)
+		nextDate := displayDate.AddDate(0, 1, 0)
+		canGoPrev := displayDate.After(minDate)
+		canGoNext := displayDate.Before(maxDate)
+
+		prevURL := fmt.Sprintf("/appointment?month=%d&year=%d", int(prevDate.Month()), prevDate.Year())
+		nextURL := fmt.Sprintf("/appointment?month=%d&year=%d", int(nextDate.Month()), nextDate.Year())
+
+		// --- LOGICA DE OCUPAÇÃO ---
+		httpClient, _ := middlewares.GetHttpClient(ctx)
+		data := []appointment{}
+		apiURL := fmt.Sprintf("/api/public/appointments?month=%d&year=%d", targetMonth, targetYear)
+		
+		resp, err := httpClient.Do("GET", apiURL, nil, nil)
+		if err == nil {
+			defer resp.Body.Close()
+			_ = json.NewDecoder(resp.Body).Decode(&data)
+		}
+
+		busyHoursByDay := make(map[int]map[int]bool)
+		slotsOccupiedPerDay := make(map[int]int)
+		
+		for _, slot := range data {
+			t, err := time.Parse("2006-01-02T15:04:05", slot.ScheduledTo)
+			if err != nil { continue }
+			day, hour := t.Day(), t.Hour()
+
+			if busyHoursByDay[day] == nil { busyHoursByDay[day] = make(map[int]bool) }
+			
+			if !busyHoursByDay[day][hour] {
+				busyHoursByDay[day][hour] = true
+				slotsOccupiedPerDay[day]++
+			}
+			if strings.Contains(slot.Duration, "1H30M") || strings.Contains(slot.Duration, "2H") {
+				if !busyHoursByDay[day][hour+1] {
+					busyHoursByDay[day][hour+1] = true
+					slotsOccupiedPerDay[day]++
+				}
+			}
+		}
+		busyJSON, _ := json.Marshal(busyHoursByDay)
+
+		// Configuração do Grid
+		const totalSlotsAvailable = 8 // 9, 10, 11, 14, 15, 16, 17, 18
+		startOffset := int(displayDate.Weekday())
+		daysInMonth := time.Date(targetYear, displayDate.Month()+1, 0, 0, 0, 0, 0, now.Location()).Day()
+	}}
+
+	<div 
+		id="date-picker" 
+		class="date-picker" 
+		data-selected-month={ strconv.Itoa(targetMonth) }
+		data-selected-year={ strconv.Itoa(targetYear) }
+	>
+		<h4 class="date-picker__title">Escolhe a data</h4>
+
+		<div class="date-picker__header">
+			<div class="date-picker__period">
+				<span class="date-picker__month">{ displayDate.Month().String() }</span>
+				<span class="date-picker__year">{ strconv.Itoa(targetYear) }</span>
+			</div>
+			<div class="date-picker__controls">
+				<button id="date-picker__nav--prev" class="date-picker__nav"
+					if canGoPrev { hx-get={ prevURL } hx-target="#date-picker" hx-swap="outerHTML" } else { disabled }>
+					<icon>&#xE811;</icon>
+				</button>
+				<button id="date-picker__nav--next" class="date-picker__nav"
+					if canGoNext { hx-get={ nextURL } hx-target="#date-picker" hx-swap="outerHTML" } else { disabled }>
+					<icon>&#xE812;</icon>
+				</button>
+			</div>
+		</div>
+
+		<div class="date-picker__grid">
+			for _, dayName := range []string{"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"} {
+				<div class="date-picker__day-name">{ dayName }</div>
+			}
+
+			for i := 0; i < startOffset; i++ {
+				<div class="date-picker__day date-picker__day--empty"></div>
+			}
+
+			for d := 1; d <= daysInMonth; d++ {
+				{{
+					currentDate := time.Date(targetYear, displayDate.Month(), d, 0, 0, 0, 0, now.Location())
+					todayMidnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+					isBeforeToday := currentDate.Before(todayMidnight)
+					isToday := currentDate.Equal(todayMidnight)
+					isFull := slotsOccupiedPerDay[d] >= totalSlotsAvailable
+				}}
+				<div 
+					class={ 
+						"date-picker__day", 
+						templ.KV("date-picker__day--disabled", isBeforeToday),
+						templ.KV("date-picker__day--today", isToday),
+						templ.KV("date-picker__day--full", isFull && !isBeforeToday) 
+					}
+					data-day={ strconv.Itoa(d) }
+					data-week={ strconv.Itoa(int(currentDate.Weekday())) }
+					data-is-today={ strconv.FormatBool(isToday) }
+				>
+					{ strconv.Itoa(d) }
+				</div>
+			}
+		</div>
+
+		<div class="date-picker__legend">
+			<div class="date-picker__legend-item" style="--color: var(--cherry)">Selecionado</div>
+			<div class="date-picker__legend-item" style="--color: #6dbf6d">Ocupado</div>
+			<div class="date-picker__legend-item" style="--color: #ddd">Hoje</div>
+		</div>
+
+		<div class="date-picker__footer">
+			<span class="date-picker__footer-icon">📅</span>
+			<div class="date-picker__footer-info">
+				<span class="date-picker__selected-label">Seleciona uma data</span>
+				<p class="date-picker__hint">Toca num dia disponível</p>
+			</div>
+		</div>
+
+		<div id="date-picker__time-grid" class="date-picker__time-grid date-picker__time-grid--hidden" data-busy={ string(busyJSON) }>
+			for h := 9; h <= 18; h++ {
+				if h < 12 || h >= 14 {
+					<div class="date-picker__time" data-hour={ strconv.Itoa(h) }>
+						{ fmt.Sprintf("%02d:00", h) }
+					</div>
+				}
+			}
+		</div>
+	</div> 
+}

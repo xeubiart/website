@@ -1,6 +1,7 @@
 package components_hotBar
 
 import "xeubiart.com/utils"
+import "xeubiart.com/app/middlewares"
 
 type Item string
 
@@ -14,13 +15,15 @@ const(
 
 type Props struct{
     Selected Item
-    // TODO make this a enum
-    AppointmentStatus string
     IsUserLogged bool
+    HasProposal bool
 }
 
 templ HotBar(props Props){
     @templ.Raw(utils.IncludeRawCSSFile("./components/hot_bar/style.css"))
+
+    {{ hasProposal, _ := middlewares.GetHasProposal(ctx) }}
+    {{ username, _ := middlewares.GetUsername(ctx) }}
 
     <div class="hot_bar">
         <a if props.Selected == Home { class="hot_bar_item active" } else { class="hot_bar_item" href="/" }>
@@ -31,10 +34,20 @@ templ HotBar(props Props){
             <span class="icon_font hot_bar_item_icon">&#xE805;</span>
             <span class="hot_bar_item_text">Galeria</span>
         </a>
-        <a if props.Selected == Appointment { class="hot_bar_item accent active" } else { class="hot_bar_item accent" href="/appointment" }>
+
+        <a 
+            href="/appointment"
+            class={ 
+                "hot_bar_item", 
+                "accent", 
+                templ.KV("active", props.Selected == Appointment), 
+                templ.KV("proposal", hasProposal),
+            }
+        >
             <span class="icon_font hot_bar_item_icon">&#xE804;</span>
             <span class="hot_bar_item_text">Agendar</span>
         </a>
+
         <a if props.Selected == Shop { class="hot_bar_item active" } else { class="hot_bar_item" href="/shop" }>
             <span class="icon_font hot_bar_item_icon">&#xE808;</span>
             <span class="hot_bar_item_text">Loja</span>
@@ -44,7 +57,7 @@ templ HotBar(props Props){
             link := "/register"
             icon := "\uE81B"
             text := "Entrar"
-            if props.IsUserLogged {
+            if username != "" {
                 link = "/profile"
                 icon = "\uE809"
                 text = "Perfil"

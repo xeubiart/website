@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/acme/autocert"
 	"xeubiart.com/app/router"
+	"xeubiart.com/utils"
 )
 
 type AppMode string
@@ -20,9 +21,8 @@ const (
 )
 
 type App struct {
-	Router     *router.Router
-	BackendURL string
-	Mode       AppMode
+	Router *router.Router
+	Mode   AppMode
 }
 
 func New(backendURL string, envMode string) *App {
@@ -51,12 +51,12 @@ func New(backendURL string, envMode string) *App {
 	router := &router.Router{
 		Router: gin.Default(),
 		Proxy:  proxy,
+		Client: utils.NewHttpClient(backendURL),
 	}
 
 	return &App{
-		Router:     router,
-		BackendURL: backendURL,
-		Mode:       mode,
+		Router: router,
+		Mode:   mode,
 	}
 }
 

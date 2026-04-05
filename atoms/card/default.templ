@@ -1,0 +1,22 @@
+package atoms_card
+
+import "xeubiart.com/utils"
+
+var loadCSS = templ.NewOnceHandle()
+
+type DefaultCardCardStyle string
+
+const (
+    Light DefaultCardCardStyle = "atoms-card--light"
+    Dark  DefaultCardCardStyle = "atoms-card--dark"
+)
+
+templ DefaultCard(style DefaultCardCardStyle){
+    @loadCSS.Once(){
+        @templ.Raw(utils.IncludeRawCSSFile("./atoms/card/style.css"))
+    }
+
+    <div class={"atoms-card " + string(style)}>
+        { children... }
+    </div>
+}

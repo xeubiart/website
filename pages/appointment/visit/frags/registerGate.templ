@@ -1,0 +1,37 @@
+package pages_appointment_visit_frags
+
+import "xeubiart.com/utils"
+
+templ Gate(){
+    @templ.Raw(utils.IncludeRawCSSFile("./pages/appointment/visit/frags/gate.css"))
+
+    <div class="gate-overlay" id="gateOverlay">
+        <div class="gate-card">
+            <div class="gate-top">
+            <div class="gate-emoji">🍒</div>
+            <div class="gate-top-eyebrow">Um pequeno passo antes</div>
+            <div class="gate-title">Cria uma conta<br>para <em>continuar.</em></div>
+            <p class="gate-sub">Para agendar a tua visita, precisamos de saber quem és — para te enviar a confirmação e o lembrete.</p>
+            <div class="gate-summary">
+                <div class="gate-summary-icon">📅</div>
+                <div class="gate-summary-text">
+                <strong id="gateDateText">—</strong>
+                Visita selecionada · gratuita e sem compromisso
+                </div>
+            </div>
+            </div>
+            <div class="gate-bottom">
+            <a href="/register" class="btn-gate-primary">
+                Criar conta grátis
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/login" class="btn-gate-login">Já tenho conta — entrar</a>
+            <div class="gate-dismiss">
+                <button onclick="closeGate()">Cancelar e voltar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    @templ.Raw(utils.IncludeRawCSSFile("./pages/appointment/visit/frags/gate.js"))
+}

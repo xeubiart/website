@@ -8,17 +8,12 @@ import "xeubiart.com/pages/landing/frags/steps"
 import "xeubiart.com/templates/base"
 import "xeubiart.com/components/hot_bar"
 
-type Props struct{
-    Username string
-}
-
-templ Index(props Props){
+templ Index(){
     @templates_base.TemplatesBase(templates_base.Props{
         Title: "Xeubiart", 
         Header: header(),
         Navigation: &templates_base.NavProps{
             Visible: true,
-            Username: props.Username,
             SelectedPage: components_hotBar.Home,
         }, 
         Footer: &templates_base.FooterProps{

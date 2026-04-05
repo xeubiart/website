@@ -1,0 +1,16 @@
+.atoms-card{
+    border-radius: 22px;
+    padding: 2rem;
+    overflow: hidden;
+
+    height: fit-content;
+}
+
+.atoms-card--dark{
+    background: var(--text);
+}
+
+.atoms-card--light{
+    background: #fff;
+    border: var(--border-default);
+}

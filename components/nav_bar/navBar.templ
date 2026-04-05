@@ -5,14 +5,13 @@ import (
     "xeubiart.com/atoms/button"
 	"xeubiart.com/components/avatar"
 	"strings"
+	"xeubiart.com/app/middlewares"
 )
 
-type Props struct{
-    Username string
-}
-
-templ NavBar(props Props){
+templ NavBar(){
     @templ.Raw(utils.IncludeRawCSSFile("./components/nav_bar/style.css"))
+
+    {{ username, _ := middlewares.GetUsername(ctx) }}
 
     <nav>
         <div class="nav_utils">
@@ -30,7 +29,7 @@ templ NavBar(props Props){
             </ul>
         </div>
 
-        if props.Username == "" {
+        if username == "" {
             <div class="nav_account">
                 @atoms_button.Default(atoms_button.DefaultProps{RedirectTo: "/login", Style: atoms_button.Light}, templ.Attributes{}) {
                     Entrar
@@ -41,8 +40,8 @@ templ NavBar(props Props){
             </div>   
         } else {
             <div class="nav_profile">
-                <span>Hi {strings.Split(props.Username, " ")[0]}</span>
-                @components_avatar.Avatar("", props.Username)
+                <span>Hi {strings.Split(username, " ")[0]}</span>
+                @components_avatar.Avatar("", username)
             </div> 
         }
     </nav>

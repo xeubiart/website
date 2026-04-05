@@ -94,7 +94,7 @@ codeBtn.addEventListener("click", async ()=>{
         document.getElementById("step-3").classList.add("step_container--shown")
 
         setTimeout(()=>{
-            window.location.href = "/login";
+            window.location.href = "/";
         }, 15000)
     } else {
         holder.classList.add("opt-inputs--invalid")

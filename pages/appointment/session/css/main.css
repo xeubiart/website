@@ -1,0 +1,212 @@
+.time-countdown{
+    display: flex;
+    gap: 1rem;
+}
+
+.time-countdown__time-wrapper{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.time-countdown__time{
+    text-align: center;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9px;
+    padding: 7px 10px;
+    min-width: 50px;
+    height: fit-content;
+}
+
+.time-countdown__time-number{
+    font-family: contrast;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+
+.time-countdown__time-text{
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: .5rem;
+}
+
+.time-countdown__title{
+    color: #fff;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.time-countdown__paragraph{
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+}
+
+.drawing-preview{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--default-border-radius);
+    padding: .5rem;
+    margin-top: 1rem;
+    transition: background-color .3s ease;
+    cursor: pointer;
+
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.09);
+    }
+}
+
+.drawing-preview__icon{
+    width: 3rem;
+    height: 3rem;
+    border-radius: 10px;
+    background-color: rgba(139, 26, 43, 0.4);
+    border: 1px solid rgba(139, 26, 43, 0.6);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    
+    & icon{
+        color: #fff;
+    }
+}
+
+
+.drawing-preview__title{
+    display: block;
+    font-size: .9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: .5rem;
+}
+
+.drawing-preview__wrapper{
+    flex-shrink: 1;
+}
+
+.drawing-preview__text{
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 300;
+}
+
+.drawing-preview__btn{
+    margin-left: auto;
+
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--cherry);
+    text-decoration: none;
+    flex-shrink: 0;
+    padding: .4rem .6rem;
+    background-color: rgba(139, 26, 43, 0.15);
+    border-radius: 8px;
+    transition: background-color .3s ease;
+    cursor: pointer;
+
+    &:hover{
+        background-color: rgba(139, 26, 43, 0.3);
+    }
+
+    & icon{
+        margin-left: .5rem;
+        color: inherit;
+    }
+}
+
+.appointment-left__detail_info{
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+.appointment-left__price-card{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.appointment-left__price-row{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(139, 26, 43, 0.07);
+    padding: 1rem 0;
+
+    &:last-of-type{
+        border-bottom: unset;
+    }
+
+    & .appointment-left__price-label{
+        font-size: 0.85rem;
+        color: var(--muted);
+        font-weight: 400;
+    }
+
+    & .appointment-left__price-value{
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+    }
+}
+
+.appointment-left__price-row--total{
+    & .appointment-left__price-label{
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    & .appointment-left__price-value{
+        font-size: 1.3rem;
+        color: var(--cherry);
+    }
+}
+
+.appointment-left__signal-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--cherry-light);
+    border: 1.5px solid rgba(139, 26, 43, 0.18);
+    border-radius: var(--default-border-radius);
+    gap: 12px;
+    padding: 1rem;
+}
+
+.appointment-left__signal-title{
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cherry);
+    margin-bottom: .5rem;
+}
+
+.appointment-left__signal-text{
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.appointment-left__signal-value{
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--cherry);
+    white-space: nowrap;
+}
+
+.appointment-left__price-info{
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.55;
+    margin-top: 1rem;
+}

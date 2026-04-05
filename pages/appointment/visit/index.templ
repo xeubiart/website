@@ -1,0 +1,76 @@
+package pages_appointment_visit
+
+import "xeubiart.com/templates/appointment"
+import "xeubiart.com/atoms/card"
+import "xeubiart.com/atoms/button"
+import "xeubiart.com/app/middlewares"
+import "xeubiart.com/pages/appointment/visit/frags"
+
+templ AppointmentVisit(){
+    @templates_appointment.TemplatesAppointment(templates_appointment.Props{
+        Title: "Xeubiart", 
+        Header: header(),
+    }){
+        @top()
+        @left()
+        @right()
+    }
+}
+
+templ header(){
+    <link href="/file/components/date_picker/style.css" rel="stylesheet">
+    <script src="/file/components/date_picker/main.js" defer></script>
+}
+
+templ top(){
+    <div class="appointment-header">
+        <div class="appointment-header__text">
+            <div class="eyebrown type-sparkly bg-pink">Visita</div>
+            <h1 class="title-default">Marcar uma <br><em>visita.</em></h1>
+            <p class="paragraph-default">Sem compromisso — conversamos sobre a tua ideia antes de qualquer coisa. Presencialmente no estúdio, ou online via Instagram ou WhatsApp. Gratuito, sem obrigação.</p>
+        </div>
+    </div>
+}
+
+templ left(){
+    {{ 
+        username, _ := middlewares.GetUsername(ctx) 
+        isLogged := username != ""
+    }}
+
+    <div class="appointment-left">
+        @atoms_card.DefaultCard(atoms_card.Dark){
+            <div class="eyebrown type-line bg-none txt-gray">O que é uma visita</div>
+            <div class="appointment-left__pills-container">
+                @templates_appointment.Pill("☕", "Duração", "~30 minutos", templates_appointment.Gray, templ.Attributes{})
+                @templates_appointment.Pill("💬", "Tipo", "Conversa livre", templates_appointment.Gray, templ.Attributes{})
+                @templates_appointment.Pill("💸", "Custo", "Gratuito", templates_appointment.Gray, templ.Attributes{})
+                @templates_appointment.Pill("📍", "Local", "Estúdio Xeubiart", templates_appointment.Gray, templ.Attributes{})
+            </div>
+            <hr>
+            <div class="eyebrown type-line bg-none txt-gray">O que acontece na visita</div>
+            <div class="appointment-left__steps-container">
+                @templates_appointment.Step("1", "Conheces o espaço", "Vês o estúdio, o ambiente de trabalho e percebes se te sentes à vontade.")
+                @templates_appointment.Step("2", "Conversamos sobre a tua ideia", "Partilhas a tua referência, zona do corpo, tamanho — sem pressão, só explorar.")
+                @templates_appointment.Step("3", "Recebes uma proposta", "Se houver match, a Xeubiart prepara uma proposta com preço e desenho nos dias seguintes.")
+            </div>
+            <p class="appointment-note"><strong>Não é obrigatório agendar.</strong> Podes aparecer no estúdio diretamente — este agendamento serve apenas para garantir que a Xeubiart está disponível para te receber.</p>
+        }
+        @atoms_card.DefaultCard(atoms_card.Light){
+            @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Heavy}, templ.Attributes{"disabled":true, "id":"appoint_visit_btn", "data-opengate":!isLogged}){
+                Agendar visita <icon>&#xE80A;</icon>
+            }
+            <span class="location_link paragraph-default">Preferes aparecer diretamente? <a target="_blank" href="https://maps.app.goo.gl/oYZqNAZQxifUbVT56">Vê o endereço</a></span>
+        }
+
+        if !isLogged {
+            @pages_appointment_visit_frags.Gate()
+        }
+    </div>
+}
+
+templ right(){
+    <div class="appointment-right">
+        <div hx-get="/appointment" hx-trigger="load" hx-swap="outerHTML"></div>
+    </div>
+}

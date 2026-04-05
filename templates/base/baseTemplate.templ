@@ -14,6 +14,7 @@ type NavProps struct{
     Visible bool
     Username string
     SelectedPage components_hotBar.Item
+    HasProposal bool
 }
 
 type Props struct{
@@ -45,9 +46,7 @@ templ TemplatesBase(props Props){
     </head>
     <body>
         if props.Navigation.Visible {
-            @components_navBar.NavBar(components_navBar.Props{
-                Username: props.Navigation.Username,
-            })
+            @components_navBar.NavBar()
         }
 
         { children... }
@@ -60,6 +59,7 @@ templ TemplatesBase(props Props){
             @components_hotBar.HotBar(components_hotBar.Props{
                 Selected: props.Navigation.SelectedPage,
                 IsUserLogged: props.Navigation.Username != "",
+                HasProposal: props.Navigation.HasProposal,
             })
         }
 

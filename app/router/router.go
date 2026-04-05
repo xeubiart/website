@@ -13,17 +13,30 @@ import (
 
 	pages_login "xeubiart.com/pages/credentials/login"
 	pages_register "xeubiart.com/pages/credentials/register"
+	pages_landing "xeubiart.com/pages/landing"
 )
 
 type Router struct {
 	Router *gin.Engine
+	Client *utils.HttpClient
 	Proxy  *httputil.ReverseProxy
 }
 
-func (r *Router) RegisterRoutes(backendURL string) {
+func (r *Router) RegisterRoutes() {
 	r.Router.Use(middlewares.ShowCookieBanner())
 
-	r.Router.GET("/", router_pages.LandingPageRoute(backendURL))
+	r.Router.GET("/",
+		middlewares.SetUsername(r.Client),
+		middlewares.SetHasProposal(r.Client),
+		utils.Render(pages_landing.Index()),
+	)
+
+	r.Router.GET("/appointment",
+		middlewares.SetUsername(r.Client),
+		middlewares.SetHasProposal(r.Client),
+		middlewares.InjectHttpClient(r.Client),
+		router_pages.AppointmentPageRoute(),
+	)
 
 	// Static pages
 	r.Router.GET("/register", utils.Render(pages_register.Index()))

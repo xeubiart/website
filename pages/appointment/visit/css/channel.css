@@ -1,0 +1,93 @@
+.channel_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    & .eyebrown{
+        margin-bottom: unset;
+    }
+}
+
+.channel{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--default-border-radius);
+    padding: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+
+    &:hover{
+        border-color: var(--cherry);
+        box-shadow: 0 8px 28px rgba(139, 26, 43, 0.1);
+        transform: translateY(-2px);
+
+        & .channel_arrow{
+            background-color: var(--cherry);
+            color: #fff;
+        }
+    }
+}
+
+.channel_logo{
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.channel_info{
+    flex: 1;
+}
+
+.channel_name{
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+    display: block;
+}
+
+.channel_handle{
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.channel_arrow{
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    font-size: .8rem;
+    border-radius: 50%;
+    background: var(--cherry-light);
+    color: var(--cherry);
+    display: grid;
+    place-items: center;
+    transition: background 0.2s;
+}
+
+.channel_note{
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: var(--cherry-light);
+    border: 1px solid rgba(139, 26, 43, 0.15);
+    border-radius: 12px;
+
+    font-size: 0.8rem;
+    color: var(--cherry);
+    font-weight: 300;
+    line-height: 1.6;
+
+    & strong{
+        font-weight: bold;
+        color: inherit;
+    }
+}

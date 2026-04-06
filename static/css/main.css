@@ -86,7 +86,7 @@ body{
 
 .title-default{
     font-family: contrast;
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-size: clamp(2.5rem, 3vw, 2.6rem);
     font-weight: 900;
     color: var(--text);
     line-height: 1.1;
@@ -103,8 +103,34 @@ body{
     font-size: 0.9rem;
     color: var(--muted);
     font-weight: 300;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     line-height: 1.6;
+}
+
+.anchor-default{
+    color: var(--cherry);
+    font-weight: bold;
+    position: relative;
+    text-wrap: nowrap;
+
+    &::after{
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        display: block;
+        content: "";
+        width: 0px;
+        height: 1px;
+        background-color: var(--cherry);
+        transition: width .2s ease-in-out;
+    }
+
+    &:hover{
+
+        &::after{
+            width: 100%;
+        }
+    }
 }
 
 icon {

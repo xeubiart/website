@@ -1,0 +1,60 @@
+.page-toggler{
+    position: relative;
+    isolation: isolate;
+
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--text);
+    border-radius: 100px;
+    padding: 5px;
+    width: fit-content;
+}
+
+.page-toggler_opt{
+    background-color: transparent;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 22px;
+    border-radius: 100px;
+    border: none;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.35);
+    transition: color 0.25s;
+    white-space: nowrap;
+
+    & icon,
+    & span{
+        color: inherit;
+    }
+    
+    &:has(input:checked){
+        color: #fff;
+        anchor-name: --active-state;
+    }
+}
+
+.page-toggler__background{
+    position-anchor: --active-state;
+    position: absolute;
+    
+    top: anchor(top);
+    left: anchor(left);
+    right: anchor(right);
+    bottom: anchor(bottom);
+    
+    z-index: -1;
+
+    border-radius: 100px;
+    background: var(--cherry);
+    box-shadow: 0 4px 16px rgba(139, 26, 43, 0.4);
+
+    pointer-events: none;
+    transition: left .2s ease-in-out, right .2s ease-in-out;
+}

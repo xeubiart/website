@@ -1,14 +1,11 @@
 package app
 
 import (
-	"crypto/tls"
 	"log"
-	"net/http"
 	"net/http/httputil"
 	"net/url"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/acme/autocert"
 	"xeubiart.com/app/router"
 	"xeubiart.com/utils"
 )
@@ -27,9 +24,8 @@ type App struct {
 
 func New(backendURL string, envMode string) *App {
 	target, _ := url.Parse(backendURL)
-	var mode AppMode
+	var mode AppMode = DevMode
 
-	mode = DevMode
 	if envMode == "prod" {
 		mode = ProdMode
 		gin.SetMode(gin.ReleaseMode)
@@ -37,67 +33,42 @@ func New(backendURL string, envMode string) *App {
 
 	proxy := &httputil.ReverseProxy{
 		Rewrite: func(pr *httputil.ProxyRequest) {
-			// 1. Set the destination (Replaces the old Director logic)
+			// 1. Set the destination URL
 			pr.SetURL(target)
 
-			// 2. Fix the Host header so Spring doesn't reject the request
+			// 2. Fix the Host header for the outgoing request
+			// This ensures the Spring backend sees the correct target host
 			pr.Out.Host = target.Host
 
-			// 3. Automatically handle X-Forwarded-For, X-Forwarded-Host, and X-Forwarded-Proto
-			// This is the "Modern" way - it adds the client IP for you!
+			// 3. Forward client info (IP, Proto, etc.)
+			// Since Caddy is sitting in front of THIS Go app,
+			// this will pass along the info Caddy sent.
 			pr.SetXForwarded()
 		},
 	}
-	router := &router.Router{
+
+	r := &router.Router{
 		Router: gin.Default(),
 		Proxy:  proxy,
 		Client: utils.NewHttpClient(backendURL),
 	}
 
 	return &App{
-		Router: router,
+		Router: r,
 		Mode:   mode,
 	}
 }
 
 func (app *App) Start() {
-	// If we are on local dev, just use standard Gin Run
-	if app.Mode == DevMode {
-		app.Router.Router.Run("localhost:9999")
-		return
+	port := ":9999"
+
+	// In Docker/Prod, we usually listen on all interfaces (0.0.0.0)
+	if app.Mode == ProdMode {
+		port = ":80"
 	}
 
-	// Otherwise, run the full Autocert logic
-	app.RunSecure()
-}
+	log.Printf("Starting Xeubiart Frontend in %s mode on %s", app.Mode, port)
 
-func (app *App) RunSecure() {
-	certificateLocal := "./certs"
-	if app.Mode == DevMode {
-		certificateLocal = "./app/certs"
-		return
-	}
-
-	// 1. Create the manager
-	manager := &autocert.Manager{
-		Prompt:     autocert.AcceptTOS,
-		HostPolicy: autocert.HostWhitelist("xeubiart.com", "www.xeubiart.com"),
-		Cache:      autocert.DirCache(certificateLocal),
-	}
-
-	// 2. Configure the HTTPS server
-	server := &http.Server{
-		Addr:    ":443",
-		Handler: app.Router.Router,
-		TLSConfig: &tls.Config{
-			GetCertificate: manager.GetCertificate,
-			NextProtos:     []string{"h2", "http/1.1"},
-		},
-	}
-
-	// 3. Start a goroutine to redirect HTTP (80) to HTTPS (443)
-	go http.ListenAndServe(":80", manager.HTTPHandler(nil))
-
-	// 4. Start HTTPS
-	log.Fatal(server.ListenAndServeTLS("", ""))
+	// We no longer need RunSecure(). Caddy handles the TLS.
+	log.Fatal(app.Router.Router.Run(port))
 }

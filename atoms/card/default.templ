@@ -1,6 +1,7 @@
 package atoms_card
 
 import "xeubiart.com/utils"
+import "strings"
 
 var loadCSS = templ.NewOnceHandle()
 
@@ -11,12 +12,19 @@ const (
     Dark  DefaultCardCardStyle = "atoms-card--dark"
 )
 
-templ DefaultCard(style DefaultCardCardStyle){
+templ DefaultCard(style DefaultCardCardStyle, attr templ.Attributes){
     @loadCSS.Once(){
         @templ.Raw(utils.IncludeRawCSSFile("./atoms/card/style.css"))
     }
 
-    <div class={"atoms-card " + string(style)}>
+    {{
+        extraClass, _ := attr["class"].(string)
+        delete(attr, "class")
+        
+        fullClass := strings.Join([]string{"atoms-card", string(style), extraClass}, " ")
+    }}
+
+    <div class={ fullClass } { attr... }>
         { children... }
     </div>
 }

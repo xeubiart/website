@@ -1,151 +1,155 @@
 package pages_appointment_session
 
-import "xeubiart.com/templates/appointment"
-import "xeubiart.com/atoms/card"
-import "xeubiart.com/atoms/button"
+templ A(){
 
-templ AppointmentSession(){
-    @templates_appointment.TemplatesAppointment(templates_appointment.Props{
-        Title: "Xeubiart", 
-        Header: header(),
-    }){
-        @top()
-        @left()
-        @right()
-    }
 }
 
-templ header(){
-    <link href="/file/pages/appointment/session/css/main.css" rel="stylesheet">
+// import "xeubiart.com/templates/appointment"
+// import "xeubiart.com/atoms/card"
+// import "xeubiart.com/atoms/button"
 
-    <link href="/file/components/date_picker/style.css" rel="stylesheet">
-    <script src="/file/components/date_picker/main.js" defer></script>
-}
+// templ AppointmentSession(){
+//     @templates_appointment.TemplatesAppointment(templates_appointment.Props{
+//         Title: "Xeubiart", 
+//         Header: header(),
+//     }){
+//         @top()
+//         @left()
+//         @right()
+//     }
+// }
 
-templ top(){
-    <div class="appointment-header">
-        <div class="appointment-header__text">
-            <div class="eyebrown type-sparkly bg-gold">Nova proposta recebida</div>
-            <h1 class="title-default">Tua sessão está <em>quase marcada.</em></h1>
-            <p class="paragraph-default">Xeubiart preparou uma proposta com os detalhes que combinamos. Escolhe uma data, paga o sinal e está feito.</p>
-        </div>
+// templ header(){
+//     <link href="/file/pages/appointment/session/css/main.css" rel="stylesheet">
 
-        @atoms_card.DefaultCard(atoms_card.Dark){
-            <div class="time-countdown">
-                <div class="time-countdown__text-wrapper">
-                    <div class="time-countdown__title">Proposta expira em</div>
-                    <div class="time-countdown__paragraph">Disponível por 48h</div>
-                </div>
-                <div class="time-countdown__time-wrapper">
-                    <div class="time-countdown__time">
-                        <div id="time-hours" class="time-countdown__time-number">48</div>
-                        <div class="time-countdown__time-text">HRS</div>
-                    </div>
-                    <div class="time-countdown__time">
-                        <div id="time-minutes" class="time-countdown__time-number">60</div>
-                        <div class="time-countdown__time-text">MIN</div>
-                    </div>
-                    <div class="time-countdown__time">
-                        <div id="time-seconds" class="time-countdown__time-number">60</div>
-                        <div class="time-countdown__time-text">SEG</div>
-                    </div>
-                </div>
-            </div>
+//     <link href="/file/components/date_picker/style.css" rel="stylesheet">
+//     <script src="/file/components/date_picker/main.js" defer></script>
+// }
 
-            <script>
-                // TODO: Receive from backend
-                let remainingSecs = 47 * 3600 + 59 * 60 + 12;
+// templ top(){
+//     <div class="appointment-header">
+//         <div class="appointment-header__text">
+//             <div class="eyebrown type-sparkly bg-gold">Nova proposta recebida</div>
+//             <h1 class="title-default">Tua sessão está <em>quase marcada.</em></h1>
+//             <p class="paragraph-default">Xeubiart preparou uma proposta com os detalhes que combinamos. Escolhe uma data, paga o sinal e está feito.</p>
+//         </div>
 
-                const hourEl = document.getElementById("time-hours")
-                const minuteEl = document.getElementById("time-minutes")
-                const secondEl = document.getElementById("time-seconds")
+//         @atoms_card.DefaultCard(atoms_card.Dark){
+//             <div class="time-countdown">
+//                 <div class="time-countdown__text-wrapper">
+//                     <div class="time-countdown__title">Proposta expira em</div>
+//                     <div class="time-countdown__paragraph">Disponível por 48h</div>
+//                 </div>
+//                 <div class="time-countdown__time-wrapper">
+//                     <div class="time-countdown__time">
+//                         <div id="time-hours" class="time-countdown__time-number">48</div>
+//                         <div class="time-countdown__time-text">HRS</div>
+//                     </div>
+//                     <div class="time-countdown__time">
+//                         <div id="time-minutes" class="time-countdown__time-number">60</div>
+//                         <div class="time-countdown__time-text">MIN</div>
+//                     </div>
+//                     <div class="time-countdown__time">
+//                         <div id="time-seconds" class="time-countdown__time-number">60</div>
+//                         <div class="time-countdown__time-text">SEG</div>
+//                     </div>
+//                 </div>
+//             </div>
 
-                setInterval(() => {
-                    if (remainingSecs <= 0) return; 
-                    remainingSecs--; 
+//             <script>
+//                 // TODO: Receive from backend
+//                 let remainingSecs = 47 * 3600 + 59 * 60 + 12;
+
+//                 const hourEl = document.getElementById("time-hours")
+//                 const minuteEl = document.getElementById("time-minutes")
+//                 const secondEl = document.getElementById("time-seconds")
+
+//                 setInterval(() => {
+//                     if (remainingSecs <= 0) return; 
+//                     remainingSecs--; 
                     
-                    hourEl.textContent = String(Math.floor(remainingSecs/3600)).padStart(2,'0'); 
-                    minuteEl.textContent = String(Math.floor((remainingSecs%3600)/60)).padStart(2,'0'); 
-                    secondEl.textContent = String(remainingSecs%60).padStart(2,'0'); 
-                }, 1000);
-            </script>
-        }
-    </div>
-}
+//                     hourEl.textContent = String(Math.floor(remainingSecs/3600)).padStart(2,'0'); 
+//                     minuteEl.textContent = String(Math.floor((remainingSecs%3600)/60)).padStart(2,'0'); 
+//                     secondEl.textContent = String(remainingSecs%60).padStart(2,'0'); 
+//                 }, 1000);
+//             </script>
+//         }
+//     </div>
+// }
 
-templ left(){
-    <div class="appointment-left">
-        @atoms_card.DefaultCard(atoms_card.Dark){
-            <div class="eyebrown type-line bg-none txt-gray">Detalhes do projeto</div>
-            <div class="appointment-left__pills-container">
-                @templates_appointment.Pill("✏️", "Estilo", "Fine Line", templates_appointment.Gray, templ.Attributes{})
-                @templates_appointment.Pill("📐", "Tamanho", "Médio (~8cm)", templates_appointment.Gray, templ.Attributes{})
-                @templates_appointment.Pill("📍", "Localização", "Antebraço esq.", templates_appointment.Gray, templ.Attributes{})
-                @templates_appointment.Pill("⏱️", "Duração", "2-3 horas", templates_appointment.Gray, templ.Attributes{})
-            </div>
-            <hr>
-            <div class="eyebrown type-line bg-none txt-gray">Descrição do desenho</div>
-            <p class="appointment-left__detail_info">Ramo de lavanda minimalista com três hastes, traço único contínuo. Sem preenchimento, apenas outline delicado. Referência botânica com toque pessoal — representando calma e memória afetiva.</p>
-            <div class="drawing-preview">
-                <div class="drawing-preview__icon">
-                    <icon>&#xF0F6;</icon>
-                </div>
-                <div class="drawing-preview__wrapper">
-                    <div class="drawing-preview__title">Referência do desenho</div>
-                    <div class="drawing-preview__text">lavanda_ref_final.png · 1.2 MB</div>
-                </div>
-                <button class="drawing-preview__btn">Ver <icon>&#xF02E;</icon></button>
-            </div>
-        }
+// templ left(){
+//     <div class="appointment-left">
+//         @atoms_card.DefaultCard(atoms_card.Dark){
+//             <div class="eyebrown type-line bg-none txt-gray">Detalhes do projeto</div>
+//             <div class="appointment-left__pills-container">
+//                 @templates_appointment.Pill("✏️", "Estilo", "Fine Line", templates_appointment.Gray, templ.Attributes{})
+//                 @templates_appointment.Pill("📐", "Tamanho", "Médio (~8cm)", templates_appointment.Gray, templ.Attributes{})
+//                 @templates_appointment.Pill("📍", "Localização", "Antebraço esq.", templates_appointment.Gray, templ.Attributes{})
+//                 @templates_appointment.Pill("⏱️", "Duração", "2-3 horas", templates_appointment.Gray, templ.Attributes{})
+//             </div>
+//             <hr>
+//             <div class="eyebrown type-line bg-none txt-gray">Descrição do desenho</div>
+//             <p class="appointment-left__detail_info">Ramo de lavanda minimalista com três hastes, traço único contínuo. Sem preenchimento, apenas outline delicado. Referência botânica com toque pessoal — representando calma e memória afetiva.</p>
+//             <div class="drawing-preview">
+//                 <div class="drawing-preview__icon">
+//                     <icon>&#xF0F6;</icon>
+//                 </div>
+//                 <div class="drawing-preview__wrapper">
+//                     <div class="drawing-preview__title">Referência do desenho</div>
+//                     <div class="drawing-preview__text">lavanda_ref_final.png · 1.2 MB</div>
+//                 </div>
+//                 <button class="drawing-preview__btn">Ver <icon>&#xF02E;</icon></button>
+//             </div>
+//         }
 
-        @atoms_card.DefaultCard(atoms_card.Light){
-            <div class="eyebrown type-line bg-none txt-gray">Valor</div>
-            <div class="appointment-left__price-card">
-                <div class="appointment-left__price-row">
-                    <div class="appointment-left__price-label">Sessão (Fine Line, médio)</div>
-                    <div class="appointment-left__price-value">€299,00</div>
-                </div>
-                <div class="appointment-left__price-row">
-                    <div class="appointment-left__price-label">Teste de alergia</div>
-                    <div class="appointment-left__price-value">€5</div>
-                </div>
-                <div class="appointment-left__price-row appointment-left__price-row--total">
-                    <div class="appointment-left__price-label">Total da sessão</div>
-                    <div class="appointment-left__price-value">€304,00</div>
-                </div>
-            </div>
-            <div class="appointment-left__signal-row">
-                <div class="appointment-left__signal-wrapper">
-                    <div class="appointment-left__signal-title">Sinal a pagar agora</div>
-                    <div class="appointment-left__signal-text">Garantia do horário — descontado no dia</div>
-                </div>
-                <div class="appointment-left__signal-value">€60,00</div>
-            </div>
-            <p class="appointment-left__price-info">🍒 O sinal é descontado do valor total no dia da sessão. Em caso de cancelamento com menos de 48h, o sinal não é reembolsado.</p>
-        }
+//         @atoms_card.DefaultCard(atoms_card.Light){
+//             <div class="eyebrown type-line bg-none txt-gray">Valor</div>
+//             <div class="appointment-left__price-card">
+//                 <div class="appointment-left__price-row">
+//                     <div class="appointment-left__price-label">Sessão (Fine Line, médio)</div>
+//                     <div class="appointment-left__price-value">€299,00</div>
+//                 </div>
+//                 <div class="appointment-left__price-row">
+//                     <div class="appointment-left__price-label">Teste de alergia</div>
+//                     <div class="appointment-left__price-value">€5</div>
+//                 </div>
+//                 <div class="appointment-left__price-row appointment-left__price-row--total">
+//                     <div class="appointment-left__price-label">Total da sessão</div>
+//                     <div class="appointment-left__price-value">€304,00</div>
+//                 </div>
+//             </div>
+//             <div class="appointment-left__signal-row">
+//                 <div class="appointment-left__signal-wrapper">
+//                     <div class="appointment-left__signal-title">Sinal a pagar agora</div>
+//                     <div class="appointment-left__signal-text">Garantia do horário — descontado no dia</div>
+//                 </div>
+//                 <div class="appointment-left__signal-value">€60,00</div>
+//             </div>
+//             <p class="appointment-left__price-info">🍒 O sinal é descontado do valor total no dia da sessão. Em caso de cancelamento com menos de 48h, o sinal não é reembolsado.</p>
+//         }
 
-        @atoms_card.DefaultCard(atoms_card.Light){
-            @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Heavy}, templ.Attributes{"disabled":true, "id":"appoint_session_btn"}){
-                Pagar sinal e confirmar <icon>&#xE80A;</icon>
-            }
-            <script>
-                let btn = document.querySelector("#appoint_session_btn")
+//         @atoms_card.DefaultCard(atoms_card.Light){
+//             @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Heavy}, templ.Attributes{"disabled":true, "id":"appoint_session_btn"}){
+//                 Pagar sinal e confirmar <icon>&#xE80A;</icon>
+//             }
+//             <script>
+//                 let btn = document.querySelector("#appoint_session_btn")
                 
-                document.addEventListener("date-picker:valid", ()=>{
-                    btn.disabled = false
-                })
-            </script>
+//                 document.addEventListener("date-picker:valid", ()=>{
+//                     btn.disabled = false
+//                 })
+//             </script>
             
-            @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Light}, templ.Attributes{}){
-                Recusar esta proposta
-            }
-            <span class="paragraph-default">Ao pagar o sinal, receberás um e-mail de confirmação.</span>
-        }
-    </div>
-}
+//             @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Light}, templ.Attributes{}){
+//                 Recusar esta proposta
+//             }
+//             <span class="paragraph-default">Ao pagar o sinal, receberás um e-mail de confirmação.</span>
+//         }
+//     </div>
+// }
 
-templ right(){
-    <div class="appointment-right">
-        <div hx-get="/appointment" hx-trigger="load" hx-swap="outerHTML"></div>
-    </div>
-}
+// templ right(){
+//     <div class="appointment-right">
+//         <div hx-get="/appointment" hx-trigger="load" hx-swap="outerHTML"></div>
+//     </div>
+// }

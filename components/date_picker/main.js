@@ -1,182 +1,139 @@
-function convertWeekday(weekDayNumber) {
-    switch (weekDayNumber) {
-        case "0": return "Domingo"
-        case "1": return "Segunda"
-        case "2": return "Terça"
-        case "3": return "Quarta"
-        case "4": return "Quinta"
-        case "5": return "Sexta"
-        case "6": return "Sábado"
-    }
-}
+const WEEKDAYS = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
-// Passamos a enviar o 'container' diretamente para a função
+/**
+ * Global Utility: Extracts appointment data from a container
+ * Can be called from anywhere: const data = window.GetAppointmentData(el);
+ */
+window.GetAppointmentData = (container) => {
+    if (!container) return null;
+    return {
+        year: container.dataset.selectedYear,
+        month: container.dataset.selectedMonth,
+        weekText: container.dataset.selectedWeekDay, 
+        day: container.dataset.selectedDay,
+        hour: container.dataset.selectedHour,
+        hourFormatted: container.dataset.selectedHourFormated 
+    };
+};
+
 const initDatePicker = (container) => {
-    // PROTEÇÃO: Evita que os eventos sejam adicionados duas vezes ao mesmo elemento
     if (!container || container.dataset.initialized === "true") return;
-    container.dataset.initialized = "true"; 
+    container.dataset.initialized = "true";
 
-    // Atualizado para ignorar também os dias marcados como "full"
-    const daysEl = container.querySelectorAll(".date-picker__day:not(.date-picker__day--disabled):not(.date-picker__day--full)");
+    // --- Selectors ---
     const timeGrid = container.querySelector(".date-picker__time-grid");
     const timesEl = container.querySelectorAll(".date-picker__time");
     const dateLabel = container.querySelector(".date-picker__selected-label");
     const hintLabel = container.querySelector(".date-picker__hint");
+    const monthElement = container.querySelector(".date-picker__month");
+    const monthName = monthElement ? monthElement.innerText.toLowerCase() : "";
+    
+    const busyData = JSON.parse(timeGrid?.dataset.busy || "{}");
 
-    const busyData = JSON.parse(timeGrid.dataset.busy || "{}");
+    // --- State Helpers ---
+    const updateTimeSlots = (selectedDayNum, isToday) => {
+        const currentHour = new Date().getHours();
+        const busyHours = busyData[selectedDayNum] || {};
 
-    // 1. Eventos de clique nos Dias
-    daysEl.forEach(el => {
-        el.addEventListener("click", () => {
-            container.dispatchEvent(new CustomEvent("date-picker:day_selected", {
-                detail: { selected: el }
-            }));
-        });
-    });
-
-    // 2. Eventos de clique nas Horas
-    timesEl.forEach(el => {
-        el.addEventListener("click", () => {
-            if (el.classList.contains("date-picker__time--taken")) return;
-
-            container.dispatchEvent(new CustomEvent("date-picker:time_selected", {
-                detail: { selected: el }
-            }));
-        });
-    });
-
-    let selectedDayElement = null;
-    let selectedHourElement = null;
-
-    // 3. Lógica ao selecionar um Dia
-    container.addEventListener("date-picker:day_selected", (e) => {
-        const el = e.detail.selected;
-        const selectedDayNumber = Number(el.dataset.day);
-        const isToday = el.dataset.isToday === "true"; 
-
-        const now = new Date();
-        const currentHour = now.getHours();
-
-        container.dataset.selectedDay = el.dataset.day;
-        container.dataset.selectedHour = ""; 
-
-        document.getElementById("date-picker__time-grid").classList.remove("date-picker__time-grid--hidden");
-
-        if (selectedDayElement !== null) {
-            selectedDayElement.classList.remove("date-picker__day--selected");
-        }
-
-        selectedDayElement = el;
-        selectedDayElement.classList.add("date-picker__day--selected");
-
-        const busyHoursForDay = busyData[selectedDayNumber] || {};
-
-        timesEl.forEach(timeEl => {
-            const hour = Number(timeEl.dataset.hour);
-            timeEl.classList.remove("date-picker__time--selected");
-            
-            const isBusy = busyHoursForDay[hour] === true;
+        timesEl.forEach(el => {
+            const hour = Number(el.dataset.hour);
+            const isBusy = busyHours[hour] === true;
             const isPast = isToday && hour <= currentHour;
-
-            if (isBusy || isPast) {
-                timeEl.classList.add("date-picker__time--taken");
-            } else {
-                timeEl.classList.remove("date-picker__time--taken");
-            }
+            
+            el.classList.toggle("date-picker__time--taken", isBusy || isPast);
+            el.classList.remove("date-picker__time--selected");
         });
+    };
 
-        selectedHourElement = null;
+    // --- Sub-Handlers ---
+    const handleDayClick = (el) => {
+        container.querySelectorAll(".date-picker__day--selected").forEach(d => d.classList.remove("date-picker__day--selected"));
+        el.classList.add("date-picker__day--selected");
+
+        // Sync State to Dataset
+        container.dataset.selectedDay = el.dataset.day;
+        container.dataset.selectedHour = "";
+        container.dataset.selectedWeek = el.dataset.week;
+        container.dataset.selectedWeekDay = WEEKDAYS[el.dataset.week];
+        
+        timeGrid?.classList.remove("date-picker__time-grid--hidden");
         container.classList.add("date-picker--times_visible");
         
-        const monthName = container.querySelector(".date-picker__month").innerText;
-        dateLabel.innerText = `${convertWeekday(el.dataset.week)}, ${el.dataset.day} de ${monthName.toLocaleLowerCase()}`;
-        hintLabel.innerText = "Data selecionada — escolhe um horário";
-    });
+        updateTimeSlots(Number(el.dataset.day), el.dataset.isToday === "true");
 
-    // 4. Lógica ao selecionar uma Hora
-    container.addEventListener("date-picker:time_selected", (e) => {
-        const el = e.detail.selected;
+        if (dateLabel) dateLabel.innerText = `${WEEKDAYS[el.dataset.week]}, ${el.dataset.day} de ${monthName}`;
+        if (hintLabel) hintLabel.innerText = "Data selecionada — escolhe um horário";
+    };
+
+    const handleTimeClick = (el) => {
+        container.querySelectorAll(".date-picker__time--selected").forEach(t => t.classList.remove("date-picker__time--selected"));
+        el.classList.add("date-picker__time--selected");
+        
+        const formattedHour = el.dataset.hour.padStart(2, '0') + ":00";
+        
         container.dataset.selectedHour = el.dataset.hour;
+        container.dataset.selectedHourFormated = formattedHour;
 
-        if (selectedHourElement !== null) {
-            selectedHourElement.classList.remove("date-picker__time--selected");
-        }
+        if (hintLabel) hintLabel.innerText = `Horário escolhido: ${formattedHour}`;
+        
+        // Notify other scripts that a full selection is made
+        document.dispatchEvent(new CustomEvent("date-picker:valid", { detail: { container } }));
+    };
 
-        selectedHourElement = el;
-        selectedHourElement.classList.add("date-picker__time--selected");
+    // --- Main Event Delegation ---
+    container.addEventListener("click", (e) => {
+        const dayBtn = e.target.closest(".date-picker__day:not(.date-picker__day--disabled):not(.date-picker__day--full)");
+        if (dayBtn) return handleDayClick(dayBtn);
 
-        document.dispatchEvent(new Event("date-picker:valid"));
+        const timeBtn = e.target.closest(".date-picker__time:not(.date-picker__time--taken)");
+        if (timeBtn) handleTimeClick(timeBtn);
     });
-};
 
-// --- NOVA LÓGICA DE INICIALIZAÇÃO BLINDADA ---
+    const restoreSession = () => {
+        const saved = JSON.parse(sessionStorage.getItem('pending_appointment'));
+        if (!saved) return;
 
-// O htmx:load é disparado pelo HTMX sempre que ele processa novos elementos na página 
-// (tanto na carga inicial como nos swaps)
-document.body.addEventListener('htmx:load', function(evt) {
-    const target = evt.detail.elt;
-    
-    // Se o elemento carregado contiver o date-picker dentro dele
-    const pickers = target.querySelectorAll('.date-picker');
-    pickers.forEach(picker => initDatePicker(picker));
-    
-    // Se o elemento carregado for o próprio date-picker
-    if (target.classList && target.classList.contains('date-picker')) {
-        initDatePicker(target);
-    }
-});
+        // 1. Find and select the Day
+        const dayEl = container.querySelector(`.date-picker__day[data-day="${saved.day}"]`);
+        if (dayEl && !dayEl.classList.contains('date-picker__day--disabled')) {
+            handleDayClick(dayEl);
 
-// Fallback de segurança para garantir que corre se o HTMX falhar na inicialização primária
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.date-picker').forEach(picker => initDatePicker(picker));
-});
-
-
-// --- LÓGICA DO BOTÃO DE ENVIO (POST) ---
-const setupButton = () => {
-    const btn = document.querySelector("#appoint_visit_btn");
-    if (!btn || btn.dataset.hooked === "true") return;
-
-    if(btn.dataset.opengate === ""){
-        openGate()
-    }
-
-    btn.addEventListener("click", async () => {
-        const container = document.querySelector(".date-picker");
-        if (!container || !container.dataset.selectedDay || !container.dataset.selectedHour) return;
-
-        const year = container.dataset.selectedYear;
-        const month = container.dataset.selectedMonth.padStart(2, '0');
-        const day = container.dataset.selectedDay.padStart(2, '0');
-        const hour = container.dataset.selectedHour.padStart(2, '0');
-
-        const scheduledTo = `${year}-${month}-${day}T${hour}:00:00`;
-
-        try {
-            const response = await fetch('/api/public/appointments/visit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ scheduledTo: scheduledTo }),
-                credentials: 'include'
-            });
-
-            if (response.ok) {
-                window.location.href = '/';
-            } else {
-                alert("Erro ao marcar visita. Verifique se o horário ainda está disponível.");
+            // 2. Find and select the Hour (must happen after day click to ensure grid is updated)
+            const timeEl = container.querySelector(`.date-picker__time[data-hour="${saved.hour}"]`);
+            if (timeEl && !timeEl.classList.contains('date-picker__time--taken')) {
+                handleTimeClick(timeEl);
             }
-        } catch (err) {
-            console.error("Erro no envio:", err);
         }
-    });
-    btn.dataset.hooked = "true";
+
+        // NOTE: If in any moment the pre-load the past appointment selection, maybe the order of this is the problem
+        // sessionStorage.removeItem('pending_appointment');
+    };
+
+    // Run restoration immediately after initialization
+    restoreSession();
 };
 
-// Garante que o botão também é configurado corretamente
-document.body.addEventListener('htmx:load', setupButton);
-document.addEventListener("DOMContentLoaded", setupButton);
+// --- HTMX & Lifecycle ---
+const initAllPickers = (root) => {
+    if (!root) return;
+    const pickers = root.querySelectorAll ? root.querySelectorAll('.date-picker') : [];
+    if (root.classList?.contains('date-picker')) initDatePicker(root);
+    pickers.forEach(initDatePicker);
+};
 
-document.addEventListener("date-picker:valid", () => {
-    const btn = document.querySelector("#appoint_visit_btn");
-    if (btn) btn.disabled = false;
+document.body.addEventListener('htmx:load', (e) => initAllPickers(e.detail.elt));
+document.addEventListener("DOMContentLoaded", () => initAllPickers(document));
+
+document.body.addEventListener('htmx:configRequest', (event) => {
+    // Only intercept the request if it's coming from our appointment trigger
+    if (event.detail.elt.id === 'appointment-trigger') {
+        const saved = JSON.parse(sessionStorage.getItem('pending_appointment'));
+        
+        if (saved && saved.year && saved.month) {
+            // Inject the year and month into the GET parameters
+            // This changes /appointment to /appointment?year=2026&month=4
+            event.detail.parameters['year'] = saved.year;
+            event.detail.parameters['month'] = saved.month;
+        }
+    }
 });

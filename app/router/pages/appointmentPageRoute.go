@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"xeubiart.com/app/middlewares"
 	components_datePicker "xeubiart.com/components/date_picker"
-	pages_appointment_session "xeubiart.com/pages/appointment/session"
+
+	// pages_appointment_session "xeubiart.com/pages/appointment/session"
 	pages_appointment_visit "xeubiart.com/pages/appointment/visit"
 )
 
@@ -28,13 +28,13 @@ func AppointmentPageRoute() gin.HandlerFunc {
 		}
 
 		// Return the Proposal page
-		if hasProposal, _ := middlewares.GetHasProposal(c.Request.Context()); hasProposal {
-			err := pages_appointment_session.AppointmentSession().Render(c.Request.Context(), c.Writer)
-			if err != nil {
-				c.String(http.StatusInternalServerError, "render error: %v", err)
-			}
-			return
-		}
+		// if hasProposal, _ := middlewares.GetHasProposal(c.Request.Context()); hasProposal {
+		// 	err := pages_appointment_session.AppointmentSession().Render(c.Request.Context(), c.Writer)
+		// 	if err != nil {
+		// 		c.String(http.StatusInternalServerError, "render error: %v", err)
+		// 	}
+		// 	return
+		// }
 
 		// Return the appoint visit page
 		err := pages_appointment_visit.AppointmentVisit().Render(c.Request.Context(), c.Writer)

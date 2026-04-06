@@ -1,14 +1,35 @@
-function openGate() {
+// Open on submit appointment
+document.getElementById("appoint_visit_btn").addEventListener("click", ()=>{
+    // Show modal
     document.getElementById('gateOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
-}
 
-function closeGate() {
-    document.getElementById('gateOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-}
+    // Get date data
+    
+    const display = document.getElementById("gateDateText")
+    let data = GetAppointmentData(document.getElementById("date-picker"));
+
+    // Set in the displayer
+    display.innerText = `${data.weekText}, ${data.day} de ${data.month} · ${data.hourFormatted}`
+})
 
 // Close on backdrop click
 document.getElementById('gateOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeGate();
-});
+    if (e.target !== this) return
+
+    document.getElementById('gateOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+})
+
+function goAuthenticate(redirectURL) {
+    const picker = document.getElementById("date-picker");
+    
+    // 1. Save the specific appointment data
+    if (picker) {
+        const data = window.GetAppointmentData(picker);
+        sessionStorage.setItem('pending_appointment', JSON.stringify(data));
+    }
+
+    // 3. Normal redirect to login/register
+    window.location.href = redirectURL;
+}

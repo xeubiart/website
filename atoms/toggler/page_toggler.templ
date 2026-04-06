@@ -1,0 +1,42 @@
+package atoms_toggler
+
+import "xeubiart.com/utils"
+
+type PageTogglerProps struct{
+    Options []PageTogglerOptionProps
+}
+
+var loadCSS = templ.NewOnceHandle()
+var loadJS = templ.NewOnceHandle()
+
+templ PageToggler(props PageTogglerProps){
+    @loadCSS.Once(){
+        @templ.Raw(utils.IncludeRawCSSFile("./atoms/toggler/page_toggler.css"))
+    }
+
+    <div class="page-toggler">
+        <div class="page-toggler__background"></div>
+        for _, opt := range(props.Options) {
+            @PageTogglerOption(opt)
+        }
+    </div>
+
+    @loadJS.Once(){
+        @templ.Raw(utils.IncludeRawJSFile("./atoms/toggler/page_toggler.js"))
+    }
+}
+
+type PageTogglerOptionProps struct{
+    Icon   string
+    Label  string
+    Active bool
+    Id     string
+}
+
+templ PageTogglerOption(props PageTogglerOptionProps){
+    <label class="page-toggler_opt">
+        <input id={props.Id} type="radio" name="opts" checked?={props.Active} hidden>
+        <icon>{props.Icon}</icon>
+        <span>{props.Label}</span>
+    </label>
+}

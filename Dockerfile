@@ -1,5 +1,25 @@
+# Stage 1: Clone proto files
+FROM alpine/git AS proto-stage
+WORKDIR /proto-repo
+RUN git clone https://github.com/xeubiart/infra .
+
+# Stage 2: Build
 FROM golang:1.25-alpine AS builder
 RUN apk add --no-cache git ca-certificates
+
+# Install protoc and gen-go dependencies
+RUN apk add --no-cache protobuf
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+# Copy the proto file into a folder
+RUN mkdir -p api
+COPY --from=proto-stage /proto-repo/proto/userService.proto ./api/
+
+# Generate the code
+RUN protoc --go_out=. --go-grpc_out=. api/userService.proto
+
+# ================================
 
 RUN go install github.com/a-h/templ/cmd/templ@latest
 

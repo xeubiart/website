@@ -1,91 +1,125 @@
-/* 
-    TODO: Avaliate if the fact that the date picker is being placed after the confirm btn is a big problem
-*/
-
 main {
-    display: grid;
+    width: 100%;
+    max-width: 900px;
+    height: fit-content;
+    margin: 0 auto;
+    
     padding: 3rem 2rem;
     background-color: var(--cream);
 
-    @media (width > 670px) {
-        padding: 4rem 20%;
-        grid-template-rows: 200px auto;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 2rem;
-
-        grid-template-areas: 
-            "header header"
-            "left right"
-        ;
+    & .page-toggler{
+        margin: 2rem 0;
     }
 }
 
-.appointment-header{
-    margin-bottom: 2rem;
-    
-    @media (width > 670px) {
-        margin-bottom: unset;
-        grid-area: header;
-        display: flex;
-        justify-content: space-between;
+.main-container{
+    width: 100%;
+    height: fit-content;
+}
 
-        & p{
-            max-width: 45vw;
+.appointment-container{
+    display: none;
+
+    --gap: 1.5rem;
+    gap: var(--gap);
+
+    width: 100%;
+    height: auto;
+
+    & .appointment-actions{
+        grid-area: actions;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & span{
+            text-align: center;
+        }
+
+        & .btn-default{
+            width: 100%;
+            margin-bottom: .75rem;
+        }
+    }
+
+    & .left-panel{
+        grid-area: left;
+    }
+    & .right-panel{
+        grid-area: right;
+    }
+}
+
+#appointment-online{
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "right"
+        "left"
+    ;
+
+    @media (width > 670px) {
+        grid-template-columns: 55% auto;
+        grid-template-rows: auto;
+        grid-template-areas: "left right";
+    }
+
+    & .right-panel{
+        @media (width > 670px) {
+            position: sticky;
+            top: calc(var(--header-height) + var(--gap));
         }
     }
 }
 
-.appointment-left{
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+#appointment-studio{
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+        "left"
+        "right"
+        "actions"
+    ;
 
     @media (width > 670px) {
-        grid-area: left;
+        grid-template-columns: 55% auto;
+        grid-template-rows: auto auto;
+        grid-template-areas: 
+            "left right"
+            "actions right"
+        ;
     }
 
-    & .btn-default{
-        width: 100%;
-        margin-bottom: 1rem;
-    }
-
-    & .appointment-card--light{
-
-        & span{
-            margin-bottom: unset;
-            display: block;
-            text-align: center;
-
-            & a {
-                color: var(--cherry);
+    & .right-panel{
+        & > :first-child {
+            @media (width > 670px) {
+                position: sticky;
+                top: calc(var(--header-height) + var(--gap));
             }
         }
     }
 }
 
-.appointment-right{
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    margin-top: 2rem;
-    
-    @media (width > 670px) {
-        margin-top: unset;
-        grid-area: right;
+.appointment-container--shown{
+    display: grid;
 
-        & > .date-picker{
-            position: sticky;
-            top: calc(var(--header-height) + 1rem);
-        }
-        
+    & .left-panel{
+        animation: fadeUp 0.5s ease 0.1s both;
+    }
+    & .right-panel{
+        animation: fadeUp 0.5s ease 0.15s both;
     }
 }
 
-main {
-    & hr{
-        height: 1px;
-        background: rgba(255, 255, 255, 0.08);
-        margin: 22px 0;
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -103,16 +137,5 @@ main {
     & strong{
         color: rgba(255, 255, 255, 0.55);
         font-weight: 600;
-    }
-}
-
-.location_link{
-    text-align: center;
-    width: 100%;
-    display: block;
-    margin: unset;
-    & a{
-        color: var(--cherry);
-        text-wrap: nowrap;
     }
 }

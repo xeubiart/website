@@ -2,25 +2,24 @@ package middlewares
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"xeubiart.com/utils"
+	backend "xeubiart.com/app/backend"
 )
 
 var hasProposalKey ContextKey = "hasProposal"
 
-func SetHasProposal(client *utils.HttpClient) gin.HandlerFunc {
+func SetHasProposal(client *backend.BackendClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		hasProposal := false
 
-		session, err := c.Request.Cookie("SESSION")
+		session, err := c.Request.Cookie("v-session")
 		if err == nil {
-			resp, err := client.Do("GET", "/api/private/proposal/status", session, nil)
-			if err == nil {
-				defer resp.Body.Close()
-				hasProposal = resp.StatusCode == http.StatusOK
+			resp, err := client.HasProposal(c.Request.Context(), session.Value)
+			if err != nil {
+				println(err.Error())
 			}
+			hasProposal = resp
 		}
 
 		ctx := context.WithValue(c.Request.Context(), hasProposalKey, hasProposal)

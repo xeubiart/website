@@ -28,8 +28,49 @@ type Props struct{
 
 templ TemplatesBase(props Props){
     <!DOCTYPE html>
-    <html lang="pt-BR">
+    <html lang="pt-PT">
     <head>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "TattooParlor",
+                "name": "Xeubiart Studio",
+                "@id": "https://xeubiart.com",
+                "url": "https://xeubiart.com",
+                "telephone": "+351910338381",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "R. Zulmira de Azevedo",
+                    "addressLocality": "Porto",
+                    "postalCode": "4780-564",
+                    "addressCountry": "PT"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 41.1579,
+                    "longitude": -8.6291
+                },
+                "openingHoursSpecification": [
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                        "opens": "10:00",
+                        "closes": "19:00"
+                    }
+                ],
+                "sameAs": [
+                    "https://www.instagram.com/xeubiart_/"
+                ]
+            }
+        </script>
+        <meta name="description" content="Premier tattoo studio in Porto specializing in Fine-line and Blackwork. Book your custom tattoo experience and check artist availability online at Xeubiart.">
+
+        <meta property="og:title" content="Xeubiart Studio - Fine-line Tattoos Porto">
+        <meta property="og:description" content="Custom Fine-line & Blackwork artistry. View our portfolio and book your session online.">
+        <meta property="og:image" content="https://xeubiart.com/file/static/img/pereco_hero.png">
+        <meta property="og:url" content="https://xeubiart.com">
+        <meta property="og:type" content="website">
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{props.Title}</title>

@@ -30,6 +30,8 @@ function goAuthenticate(redirectURL) {
         sessionStorage.setItem('pending_appointment', JSON.stringify(data));
     }
 
+    sessionStorage.setItem('after_auth_redirect_to', "/appointment?page-mode=studio");
+
     // 3. Normal redirect to login/register
     window.location.href = redirectURL;
 }

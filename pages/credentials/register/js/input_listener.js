@@ -30,29 +30,32 @@ document.addEventListener("input", ()=>{
 btn.addEventListener("click", async ()=>{
     const inputArray = Array.from(inputs);
 
-    const formData = {
-        name: inputArray.find(i => i.id === 'name_input')?.value,
-        email: inputArray.find(i => i.id === 'email_input')?.value,
-        password: inputArray.find(i => i.id === 'password_input')?.value,
-        role: "USER"
-    };
+    const form = {
+        accountInputDTO: {
+            email: inputArray.find(i => i.id === 'email_input')?.value
+        },
+        identityInputDTO: {
+            provider: "LOCAL",
+            password: inputArray.find(i => i.id === 'password_input')?.value
+        }
+    }
 
     btn.classList.add("btn--loading");
 
     try {
-        const response = await fetch('/api/public/auth/register', {
+        const response = await fetch('/api/account/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(form),
             credentials: 'include'
         });
 
         if (response.ok) {
             document.getElementById("step-1").classList.remove("step_container--shown")
             document.getElementById("step-2").classList.add("step_container--shown")
-            document.getElementById('display-email').textContent = formData.email;
+            document.getElementById('display-email').textContent = form.email;
             startTimer(60)
             return;
         }

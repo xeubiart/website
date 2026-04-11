@@ -82,7 +82,7 @@ holder.addEventListener("input", ()=>{
 codeBtn.addEventListener("click", async ()=>{
     
     const response = await fetch(
-        `/api/public/auth/verify?code=${encodeURIComponent(getCodeFromInputs())}`,
+        `/api/account/verify?code=${encodeURIComponent(getCodeFromInputs())}`,
         { 
             method: "POST",
             credentials: 'include'
@@ -93,12 +93,14 @@ codeBtn.addEventListener("click", async ()=>{
         document.getElementById("step-2").classList.remove("step_container--shown")
         document.getElementById("step-3").classList.add("step_container--shown")
 
-        setTimeout(()=>{
-            window.location.href = "/";
-        }, 15000)
+        window.location.href = sessionStorage.getItem('after_auth_redirect_to') || '/';
     } else {
         holder.classList.add("opt-inputs--invalid")
     }
+})
+
+document.getElementById("code_continue_btn").addEventListener("click", ()=>{
+    window.location.href = sessionStorage.getItem('after_auth_redirect_to') || '/';
 })
 
 function getCodeFromInputs(){
@@ -114,7 +116,7 @@ refreshCode.addEventListener("click", async ()=>{
     startTimer(60)
 
     await fetch(
-        "/api/public/auth/verify/resend",
+        "/api/account/verify/resend",
         {
             method: "POST",
             credentials: "include"

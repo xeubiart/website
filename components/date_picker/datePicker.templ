@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"xeubiart.com/app/middlewares"
 )
 
 type appointment struct {
@@ -47,15 +46,15 @@ templ DatePicker(month int, year int) {
 		nextURL := fmt.Sprintf("/appointment?month=%d&year=%d", int(nextDate.Month()), nextDate.Year())
 
 		// --- LOGICA DE OCUPAÇÃO ---
-		httpClient, _ := middlewares.GetHttpClient(ctx)
+		// httpClient, _ := middlewares.GetHttpClient(ctx)
 		data := []appointment{}
-		apiURL := fmt.Sprintf("/api/public/appointments?month=%d&year=%d", targetMonth, targetYear)
+		// apiURL := fmt.Sprintf("/api/public/appointments?month=%d&year=%d", targetMonth, targetYear)
 		
-		resp, err := httpClient.Do("GET", apiURL, nil, nil)
-		if err == nil {
-			defer resp.Body.Close()
-			_ = json.NewDecoder(resp.Body).Decode(&data)
-		}
+		// resp, err := httpClient.Do("GET", apiURL, nil, nil)
+		// if err == nil {
+		// 	defer resp.Body.Close()
+		// 	_ = json.NewDecoder(resp.Body).Decode(&data)
+		// }
 
 		busyHoursByDay := make(map[int]map[int]bool)
 		slotsOccupiedPerDay := make(map[int]int)

@@ -30,7 +30,7 @@ const setupButton = () => {
             });
 
             if (response.ok) {
-                window.location.href = '/';
+                window.location.href = '/appointment';
             } else {
                 alert("Erro ao marcar visita. Verifique se o horário ainda está disponível.");
             }

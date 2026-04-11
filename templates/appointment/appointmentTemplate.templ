@@ -4,7 +4,6 @@ import "xeubiart.com/templates/base"
 
 type Props struct{
     Title string
-
     Header templ.Component
 }
 
@@ -28,11 +27,33 @@ templ TemplatesAppointment(props Props){
 
 templ header(){
     <link href="/file/static/css/eyebrown.css" rel="stylesheet">
-
     <link href="/file/templates/appointment/css/main.css" rel="stylesheet">
     <link href="/file/templates/appointment/css/pill.css" rel="stylesheet">
     <link href="/file/templates/appointment/css/step.css" rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>
 }
 
+type PillStyle string
+
+const (
+    Gray PillStyle = "appointment-pill--gray"
+    Red  PillStyle = "appointment-pill--red"
+)
+
+templ Pill(emoji, title, text string, style PillStyle, attrs templ.Attributes){
+    <div { attrs... } class={"appointment-pill " + string(style)}>
+        <div>{emoji}</div>
+        <div class="appointment-pill__text">
+            <h4 class="appointment-pill__title">{title}</h4>
+            <p class="appointment-pill__paragraph">{text}</p>
+        </div>
+    </div>
+}
+
+templ Step(number, title, text string){
+    <div class="appointment-step" data-step={number}>
+        <div class="appointment-step__wrapper">
+            <h4 class="appointment-step__title">{title}</h4>
+            <p class="appointment-step__paragraph">{text}</p>
+        </div>
+    </div>
+}

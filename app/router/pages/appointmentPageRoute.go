@@ -17,6 +17,10 @@ func AppointmentPageRoute() gin.HandlerFunc {
 
 		month, _ := strconv.Atoi(c.Query("month"))
 		year, _ := strconv.Atoi(c.Query("year"))
+		pageMode := c.Query("page-mode")
+		if pageMode == "" {
+			pageMode = "online"
+		}
 
 		// Return only the date-picker
 		if c.GetHeader("HX-Request") == "true" {
@@ -37,7 +41,7 @@ func AppointmentPageRoute() gin.HandlerFunc {
 		// }
 
 		// Return the appoint visit page
-		err := pages_appointment_visit.AppointmentVisit().Render(c.Request.Context(), c.Writer)
+		err := pages_appointment_visit.AppointmentVisit(pageMode).Render(c.Request.Context(), c.Writer)
 		if err != nil {
 			c.String(http.StatusInternalServerError, "render error: %v", err)
 		}

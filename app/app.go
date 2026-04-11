@@ -4,8 +4,10 @@ import (
 	"log"
 	"net/http/httputil"
 	"net/url"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	backendClient "xeubiart.com/app/backend"
 	"xeubiart.com/app/router"
 	"xeubiart.com/utils"
 )
@@ -22,35 +24,40 @@ type App struct {
 	Mode   AppMode
 }
 
-func New(backendURL string, envMode string) *App {
-	target, _ := url.Parse(backendURL)
+func New(backendURL, backendGRPCURL string, envMode string) *App {
 	var mode AppMode = DevMode
-
 	if envMode == "prod" {
 		mode = ProdMode
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	// Prepare the target for the ReverseProxy (REST/HTTP)
+	// We ensure it has a scheme so url.Parse doesn't fail
+	proxyTarget := backendURL
+	if !strings.HasPrefix(proxyTarget, "http") {
+		proxyTarget = "http://" + proxyTarget
+	}
+	target, _ := url.Parse(proxyTarget)
+
 	proxy := &httputil.ReverseProxy{
 		Rewrite: func(pr *httputil.ProxyRequest) {
-			// 1. Set the destination URL
 			pr.SetURL(target)
-
-			// 2. Fix the Host header for the outgoing request
-			// This ensures the Spring backend sees the correct target host
 			pr.Out.Host = target.Host
-
-			// 3. Forward client info (IP, Proto, etc.)
-			// Since Caddy is sitting in front of THIS Go app,
-			// this will pass along the info Caddy sent.
 			pr.SetXForwarded()
 		},
 	}
 
+	// Initialize gRPC Client (this now blocks until healthy)
+	bClient, err := backendClient.NewBackendClient(backendGRPCURL)
+	if err != nil {
+		log.Fatalf("Fatal: Could not connect to gRPC backend: %v", err)
+	}
+
 	r := &router.Router{
-		Router: gin.Default(),
-		Proxy:  proxy,
-		Client: utils.NewHttpClient(backendURL),
+		Router:        gin.Default(),
+		BackendClient: bClient,
+		Proxy:         proxy,
+		Client:        utils.NewHttpClient(backendURL),
 	}
 
 	return &App{
@@ -61,14 +68,10 @@ func New(backendURL string, envMode string) *App {
 
 func (app *App) Start() {
 	port := ":9999"
-
-	// In Docker/Prod, we usually listen on all interfaces (0.0.0.0)
 	if app.Mode == ProdMode {
-		port = ":80"
+		port = ":8081"
 	}
 
 	log.Printf("Starting Xeubiart Frontend in %s mode on %s", app.Mode, port)
-
-	// We no longer need RunSecure(). Caddy handles the TLS.
 	log.Fatal(app.Router.Router.Run(port))
 }

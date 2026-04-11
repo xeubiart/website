@@ -1,141 +1,139 @@
 package pages_appointment_visit
 
-import "xeubiart.com/templates/base"
 import "xeubiart.com/atoms/toggler"
 import "xeubiart.com/atoms/card"
 import "xeubiart.com/atoms/button"
 import "xeubiart.com/app/middlewares"
 import "xeubiart.com/pages/appointment/visit/frags"
+import "xeubiart.com/templates/appointment"
 
-templ AppointmentVisit(){
-    @templates_base.TemplatesBase(templates_base.Props{
+templ AppointmentVisit(pageMode string){
+    @templates_appointment.TemplatesAppointment(templates_appointment.Props{
         Title: "Agendar — Xeubiart",
         Header: header(),
-        Navigation: &templates_base.NavProps{
-            Visible: true,
-        },
-        Footer: &templates_base.FooterProps{
-            Visible: true,
-            CTA: false,
-        },
     }){
         {{ 
             username, _ := middlewares.GetUsername(ctx)
             isLogged := username != ""
         }}
 
-        <main>
-            <div class="appointment-header">
-                <div class="appointment-header__text">
-                    <div class="eyebrown type-sparkly bg-pink">Agendamento</div>
-                    <h1 class="title-default">Dá vida à <br><em>tua ideia.</em></h1>
-                    <p class="paragraph-default">O primeiro passo para o teu projeto começa aqui. Quer prefiras uma conversa presencial no estúdio ou um contacto rápido via Instagram/WhatsApp, estamos cá para ouvir a tua visão. Sem compromisso, gratuito e totalmente focado no que imaginas.</p>
-                    @atoms_toggler.PageToggler(atoms_toggler.PageTogglerProps{
-                        Options: []atoms_toggler.PageTogglerOptionProps{
-                            atoms_toggler.PageTogglerOptionProps{
-                                Icon:   "\uF03D",
-                                Label:  "Online",
-                                Active: true,
-                                Id:     "online",
-                            },
-                            atoms_toggler.PageTogglerOptionProps{
-                                Icon:  "\uE813",
-                                Label: "No estúdio",
-                                Id:    "studio",
-                            },
+        <div class="appointment-header">
+            <div class="appointment-header__text">
+                <div class="eyebrown type-sparkly bg-pink">Agendamento</div>
+                <h1 class="title-default">Dá vida à <br><em>tua ideia.</em></h1>
+                <p class="paragraph-default">O primeiro passo para o teu projeto começa aqui. Quer prefiras uma conversa presencial no estúdio ou um contacto rápido via Instagram/WhatsApp, estamos cá para ouvir a tua visão. Sem compromisso, gratuito e totalmente focado no que imaginas.</p>
+                @atoms_toggler.PageToggler(atoms_toggler.PageTogglerProps{
+                    Options: []atoms_toggler.PageTogglerOptionProps{
+                        atoms_toggler.PageTogglerOptionProps{
+                            Icon:   "\uF03D",
+                            Label:  "Online",
+                            Active: pageMode == "online",
+                            Id:     "online",
                         },
-                    })
-                </div>
+                        atoms_toggler.PageTogglerOptionProps{
+                            Icon:  "\uE813",
+                            Label: "No estúdio",
+                            Active: pageMode == "studio",
+                            Id:    "studio",
+                        },
+                    },
+                })
             </div>
+        </div>
 
-            <div class="main-container">
-                <div id="appointment-online" class="appointment-container appointment-container--shown">
-                    @atoms_card.DefaultCard(atoms_card.Dark, templ.Attributes{"class":"left-panel"}){
-                        <div class="eyebrown type-line bg-none txt-gray">Como funciona online</div>
-                        <div class="appointment-left__pills-container">
-                            @Pill("⚡", "Resposta", "Até 24h", Gray, templ.Attributes{})
-                            @Pill("💬", "Tipo", "Conversa livre", Gray, templ.Attributes{})
-                            @Pill("💸", "Custo", "Gratuito", Gray, templ.Attributes{})
-                        </div>
-                        <hr>
-                        <div class="eyebrown type-line bg-none txt-gray">O que acontece</div>
-                        <div class="appointment-left__steps-container">
-                            @Step("1", "Envia a tua ideia", "Manda uma mensagem com a tua referência, zona do corpo e o que imaginas. Fotos, sketches ou só palavras — vale tudo.")
-                            @Step("2", "Conversamos", "A Xeubiart responde pessoalmente — sem bots, sem templates. Exploramos juntos, sem pressão de tempo.")
-                            @Step("3", "Recebes uma proposta", "Se houver match, prepara uma proposta com preço, desenho e disponibilidade nos dias seguintes.")
-                        </div>
-                    }
-                    @atoms_card.DefaultCard(atoms_card.Light, templ.Attributes{"class":"right-panel"}){
-                        <div class="channel_wrapper">
-                            <div class="eyebrown type-line bg-none txt-gray">Escolhe o canal</div>
-
-                            <a target="_blank" href="https://www.instagram.com/xeubiart_/" class="channel">
-                                <icon class="channel_logo" style="
-                                        background: linear-gradient(
-                                            135deg,
-                                            #f09433,
-                                            #e6683c,
-                                            #dc2743,
-                                            #cc2366,
-                                            #bc1888
-                                        );">&#xF16D;</icon>
-                                <div class="channel_info">
-                                    <span class="channel_name">Instagram DM</span>
-                                    <span class="channel_handle">{"@Xeubiart_"}</span>
-                                </div>
-                                <icon class="channel_arrow">&#xE80A;</icon>
-                            </a>
-
-                            <a target="_blank" href="https://wa.me/351910338381" class="channel">
-                                <icon class="channel_logo" style="background: #25d366">&#xF232;</icon>
-                                <div class="channel_info">
-                                    <span class="channel_name">WhatsApp</span>
-                                    <span class="channel_handle">+351 910 338 381</span>
-                                </div>
-                                <icon class="channel_arrow">&#xE80A;</icon>
-                            </a>
-
-                            <div class="channel_note"><strong>Preferes não sair de casa?</strong> <br>Uma mensagem chega igual. Envia umas referências, a zona do corpo e o que imaginas — e conversamos por DM sem pressas.</div>
-                        </div>
-                    }
-                </div>
-                <div id="appointment-studio" class="appointment-container">
-                    @atoms_card.DefaultCard(atoms_card.Dark, templ.Attributes{"class":"left-panel"}){
-                        <div class="eyebrown type-line bg-none txt-gray">Como funciona online</div>
-                        <div class="appointment-left__pills-container">
-                            @Pill("☕", "Duração", "~30 minutos", Gray, templ.Attributes{})
-                            @Pill("💬", "Tipo", "Conversa livre", Gray, templ.Attributes{})
-                            @Pill("💸", "Custo", "Gratuito", Gray, templ.Attributes{})
-                            @Pill("📍", "Local", "Estúdio Xeubiart", Gray, templ.Attributes{})
-                        </div>
-                        <hr>
-                        <div class="eyebrown type-line bg-none txt-gray">O que acontece na visita</div>
-                        <div class="appointment-left__steps-container">
-                            @Step("1", "Conheces o espaço", "Vês o estúdio, o ambiente de trabalho e percebes se te sentes à vontade.")
-                            @Step("2", "Conversamos sobre a tua ideia", "Partilhas a tua referência, zona do corpo, tamanho — sem pressão, só explorar.")
-                            @Step("3", "Recebes uma proposta", "Se houver match, prepara uma proposta com preço, desenho e disponibilidade nos dias seguintes.")
-                        </div>
-                        <p class="appointment-note"><strong>Não é obrigatório agendar.</strong> Podes aparecer no estúdio diretamente — este agendamento serve apenas para garantir que a Xeubiart está disponível para te receber.</p>
-                    }
-                    @atoms_card.DefaultCard(atoms_card.Light, templ.Attributes{"class":"appointment-actions"}){
-                        @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Heavy}, templ.Attributes{"disabled":true, "id":"appoint_visit_btn", "data-appoint":isLogged}){
-                            Agendar visita <icon>&#xE80A;</icon>
-                        }
-                        <script>
-                            let btn = document.querySelector("#appoint_visit_btn")
-                            
-                            document.addEventListener("date-picker:valid", ()=>{
-                                btn.disabled = false
-                            })
-                        </script>
-                        <span class="paragraph-default">Preferes aparecer diretamente? <a target="_blank" href="https://maps.app.goo.gl/HHHFqERRz2fTufQZ7" class="anchor-default">Vê o endereço</a></span>
-                    }
-                    <div class="right-panel">
-                        <div id="appointment-trigger" hx-get="/appointment" hx-trigger="load" hx-swap="outerHTML"></div>
+        <div class="main-container">
+            <div id="appointment-online" class={
+                "appointment-container",
+                templ.KV("appointment-container--shown", pageMode == "online"),
+            }>
+                @atoms_card.DefaultCard(atoms_card.Dark, templ.Attributes{"class":"left-panel"}){
+                    <div class="eyebrown type-line bg-none txt-gray">Como funciona online</div>
+                    <div class="appointment-left__pills-container">
+                        @templates_appointment.Pill("⚡", "Resposta", "Até 24h", templates_appointment.Gray, templ.Attributes{})
+                        @templates_appointment.Pill("💬", "Tipo", "Conversa livre", templates_appointment.Gray, templ.Attributes{})
+                        @templates_appointment.Pill("💸", "Custo", "Gratuito", templates_appointment.Gray, templ.Attributes{})
                     </div>
+                    <hr>
+                    <div class="eyebrown type-line bg-none txt-gray">O que acontece</div>
+                    <div class="appointment-left__steps-container">
+                        @templates_appointment.Step("1", "Envia a tua ideia", "Manda uma mensagem com a tua referência, zona do corpo e o que imaginas. Fotos, sketches ou só palavras — vale tudo.")
+                        @templates_appointment.Step("2", "Conversamos", "A Xeubiart responde pessoalmente — sem bots, sem templates. Exploramos juntos, sem pressão de tempo.")
+                        @templates_appointment.Step("3", "Recebes uma proposta", "Se houver match, prepara uma proposta com preço, desenho e disponibilidade nos dias seguintes.")
+                    </div>
+                }
+                @atoms_card.DefaultCard(atoms_card.Light, templ.Attributes{"class":"right-panel"}){
+                    <div class="channel_wrapper">
+                        <div class="eyebrown type-line bg-none txt-gray">Escolhe o canal</div>
+
+                        <a target="_blank" href="https://www.instagram.com/xeubiart_/" class="channel">
+                            <icon class="channel_logo" style="
+                                    background: linear-gradient(
+                                        135deg,
+                                        #f09433,
+                                        #e6683c,
+                                        #dc2743,
+                                        #cc2366,
+                                        #bc1888
+                                    );">&#xF16D;</icon>
+                            <div class="channel_info">
+                                <span class="channel_name">Instagram DM</span>
+                                <span class="channel_handle">{"@Xeubiart_"}</span>
+                            </div>
+                            <icon class="channel_arrow">&#xE80A;</icon>
+                        </a>
+
+                        <a target="_blank" href="https://wa.me/351910338381" class="channel">
+                            <icon class="channel_logo" style="background: #25d366">&#xF232;</icon>
+                            <div class="channel_info">
+                                <span class="channel_name">WhatsApp</span>
+                                <span class="channel_handle">+351 910 338 381</span>
+                            </div>
+                            <icon class="channel_arrow">&#xE80A;</icon>
+                        </a>
+
+                        <div class="channel_note"><strong>Preferes não sair de casa?</strong> <br>Uma mensagem chega igual. Envia umas referências, a zona do corpo e o que imaginas — e conversamos por DM sem pressas.</div>
+                    </div>
+                }
+            </div>
+            <div id="appointment-studio" class={
+                "appointment-container",
+                templ.KV("appointment-container--shown", pageMode == "studio"),
+            }>
+                @atoms_card.DefaultCard(atoms_card.Dark, templ.Attributes{"class":"left-panel"}){
+                    <div class="eyebrown type-line bg-none txt-gray">Como funciona online</div>
+                    <div class="appointment-left__pills-container">
+                        @templates_appointment.Pill("☕", "Duração", "~30 minutos", templates_appointment.Gray, templ.Attributes{})
+                        @templates_appointment.Pill("💬", "Tipo", "Conversa livre", templates_appointment.Gray, templ.Attributes{})
+                        @templates_appointment.Pill("💸", "Custo", "Gratuito", templates_appointment.Gray, templ.Attributes{})
+                        @templates_appointment.Pill("📍", "Local", "Estúdio Xeubiart", templates_appointment.Gray, templ.Attributes{})
+                    </div>
+                    <hr>
+                    <div class="eyebrown type-line bg-none txt-gray">O que acontece na visita</div>
+                    <div class="appointment-left__steps-container">
+                        @templates_appointment.Step("1", "Conheces o espaço", "Vês o estúdio, o ambiente de trabalho e percebes se te sentes à vontade.")
+                        @templates_appointment.Step("2", "Conversamos sobre a tua ideia", "Partilhas a tua referência, zona do corpo, tamanho — sem pressão, só explorar.")
+                        @templates_appointment.Step("3", "Recebes uma proposta", "Se houver match, prepara uma proposta com preço, desenho e disponibilidade nos dias seguintes.")
+                    </div>
+                    <p class="appointment-note"><strong>Não é obrigatório agendar.</strong> Podes aparecer no estúdio diretamente — este agendamento serve apenas para garantir que a Xeubiart está disponível para te receber.</p>
+                }
+                @atoms_card.DefaultCard(atoms_card.Light, templ.Attributes{"class":"appointment-actions"}){
+                    @atoms_button.Default(atoms_button.DefaultProps{Style: atoms_button.Heavy}, templ.Attributes{"disabled":true, "id":"appoint_visit_btn", "data-appoint":isLogged}){
+                        Agendar visita <icon>&#xE80A;</icon>
+                    }
+                    <script>
+                        let btn = document.querySelector("#appoint_visit_btn")
+                        
+                        document.addEventListener("date-picker:valid", ()=>{
+                            btn.disabled = false
+                        })
+                    </script>
+                    <span class="paragraph-default">Preferes aparecer diretamente? <a target="_blank" href="https://maps.app.goo.gl/HHHFqERRz2fTufQZ7" class="anchor-default">Vê o endereço</a></span>
+                }
+                <div class="right-panel">
+                    <div id="appointment-trigger" hx-get="/appointment" hx-trigger="load" hx-swap="outerHTML"></div>
                 </div>
             </div>
-        </main>
+        </div>
 
         if !isLogged {
             @pages_appointment_visit_frags.Gate();
@@ -144,12 +142,7 @@ templ AppointmentVisit(){
 }
 
 templ header(){
-    <link href="/file/static/css/eyebrown.css" rel="stylesheet">
-
-    <link href="/file/pages/appointment/visit/css/main.css" rel="stylesheet">
     <link href="/file/pages/appointment/visit/css/channel.css" rel="stylesheet">
-    <link href="/file/templates/appointment/css/pill.css" rel="stylesheet">
-    <link href="/file/templates/appointment/css/step.css" rel="stylesheet">
     
     <script src="/file/pages/appointment/visit/js/page_toggler.js" defer></script>
     <script src="/file/pages/appointment/visit/js/appoint.js" defer></script>
@@ -162,28 +155,3 @@ templ header(){
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous"></script>
 }
 
-type PillStyle string
-
-const (
-    Gray PillStyle = "appointment-pill--gray"
-    Red  PillStyle = "appointment-pill--red"
-)
-
-templ Pill(emoji, title, text string, style PillStyle, attrs templ.Attributes){
-    <div { attrs... } class={"appointment-pill " + string(style)}>
-        <div>{emoji}</div>
-        <div class="appointment-pill__text">
-            <h4 class="appointment-pill__title">{title}</h4>
-            <p class="appointment-pill__paragraph">{text}</p>
-        </div>
-    </div>
-}
-
-templ Step(number, title, text string){
-    <div class="appointment-step" data-step={number}>
-        <div class="appointment-step__wrapper">
-            <h4 class="appointment-step__title">{title}</h4>
-            <p class="appointment-step__paragraph">{text}</p>
-        </div>
-    </div>
-}

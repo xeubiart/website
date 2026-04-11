@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	backendClient "xeubiart.com/app/backend"
 	"xeubiart.com/app/middlewares"
 	router_pages "xeubiart.com/app/router/pages"
 	"xeubiart.com/utils"
@@ -17,7 +18,9 @@ import (
 )
 
 type Router struct {
-	Router *gin.Engine
+	Router        *gin.Engine
+	BackendClient *backendClient.BackendClient
+
 	Client *utils.HttpClient
 	Proxy  *httputil.ReverseProxy
 }
@@ -26,15 +29,15 @@ func (r *Router) RegisterRoutes() {
 	r.Router.Use(middlewares.ShowCookieBanner())
 
 	r.Router.GET("/",
-		middlewares.SetUsername(r.Client),
-		middlewares.SetHasProposal(r.Client),
+		middlewares.SetUsername(r.BackendClient),
+		middlewares.SetHasProposal(r.BackendClient),
 		utils.Render(pages_landing.Index()),
 	)
 
 	r.Router.GET("/appointment",
-		middlewares.SetUsername(r.Client),
-		middlewares.SetHasProposal(r.Client),
-		middlewares.InjectHttpClient(r.Client),
+		middlewares.SetUsername(r.BackendClient),
+		middlewares.SetHasProposal(r.BackendClient),
+		// TODO Make the appointment page query the backend
 		router_pages.AppointmentPageRoute(),
 	)
 
@@ -65,7 +68,7 @@ func (r *Router) handleProxy(c *gin.Context) {
 	}
 
 	// 2. BACKEND PROXY
-	if strings.HasPrefix(path, "/api/public") {
+	if strings.HasPrefix(path, "/api") {
 		r.Proxy.ServeHTTP(c.Writer, c.Request)
 		return
 	}

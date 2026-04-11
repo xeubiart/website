@@ -2,32 +2,23 @@ package middlewares
 
 import (
 	"context"
-	"encoding/json"
 
 	"github.com/gin-gonic/gin"
-	"xeubiart.com/utils"
+	backend "xeubiart.com/app/backend"
 )
 
 var usernameKey ContextKey = "username"
 
 // Adds the name to context so it can be read when needed
-func SetUsername(client *utils.HttpClient) gin.HandlerFunc {
+func SetUsername(client *backend.BackendClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		username := ""
 
-		session, err := c.Request.Cookie("SESSION")
+		session, err := c.Request.Cookie("v-session")
 		if err == nil {
-			resp, err := client.Do("GET", "/api/private/account/me", session, nil)
-			if err == nil {
-				defer resp.Body.Close()
-
-				var data struct {
-					Username string `json:"name"`
-				}
-
-				if err := json.NewDecoder(resp.Body).Decode(&data); err == nil {
-					username = data.Username
-				}
+			username, err = client.GetUsername(c.Request.Context(), session.Value)
+			if err != nil {
+				println("gRPC Error:", err.Error())
 			}
 		}
 

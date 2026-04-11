@@ -17,9 +17,15 @@ func main() {
 	if backendURL == "" {
 		log.Fatal("BACKEND URL NOT SET")
 	}
+	backendGRPCURL := os.Getenv("BACKEND_GRPC_URL")
+	if backendURL == "" {
+		log.Fatal("BACKEND GRPC URL NOT SET")
+	}
+
+	println(backendURL)
 
 	// 2. Initialize App
-	application := app.New(backendURL, os.Getenv("ENV_MODE"))
+	application := app.New(backendURL, backendGRPCURL, os.Getenv("ENV_MODE"))
 
 	// 3. Register Routes
 	application.Router.RegisterRoutes()

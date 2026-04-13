@@ -17,13 +17,13 @@ ENV PATH="$PATH:$(go env GOPATH)/bin"
 
 WORKDIR /build
 
-RUN mkdir -p api
-COPY --from=proto-stage /proto-repo/proto/userService.proto ./api/
+RUN mkdir -p proto
+COPY --from=proto-stage /proto-repo/proto/userService.proto ./proto/
 
 RUN protoc -I. -I/usr/include \
     --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    api/userService.proto
+    proto/userService.proto
 
 COPY go.mod go.sum ./
 RUN go mod download

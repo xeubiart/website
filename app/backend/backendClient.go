@@ -9,8 +9,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/keepalive"
-	"google.golang.org/grpc/metadata"                // Necessário para o Interceptor
-	"google.golang.org/protobuf/types/known/emptypb" // O tipo "Empty" oficial
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/protobuf/types/known/emptypb"
 	proto "xeubiart.com/proto"
 )
 
@@ -61,6 +61,7 @@ func NewBackendClient(target string) (*BackendClient, error) {
 // GetUsername agora injeta o token nos metadados
 func (b *BackendClient) GetUsername(ctx context.Context, token string) (string, error) {
 	// 1. Coloca o token nos Headers (Metadata) para o Interceptor do Java ler
+	// Esse é o mesmo formato que o spring espera "x-session-id"
 	md := metadata.Pairs("x-session-id", token)
 	ctxWithAuth := metadata.NewOutgoingContext(ctx, md)
 
@@ -73,7 +74,6 @@ func (b *BackendClient) GetUsername(ctx context.Context, token string) (string, 
 	return resp.GetUsername(), nil
 }
 
-// HasProposal segue a mesma lógica
 func (b *BackendClient) HasProposal(ctx context.Context, token string) (bool, error) {
 	md := metadata.Pairs("x-session-id", token)
 	ctxWithAuth := metadata.NewOutgoingContext(ctx, md)

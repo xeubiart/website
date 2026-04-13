@@ -13,7 +13,7 @@ func SetHasProposal(client *backend.BackendClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		hasProposal := false
 
-		session, err := c.Request.Cookie("v-session")
+		session, err := c.Request.Cookie("SESSION")
 		if err == nil {
 			resp, err := client.HasProposal(c.Request.Context(), session.Value)
 			if err != nil {

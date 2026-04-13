@@ -32,6 +32,7 @@ btn.addEventListener("click", async ()=>{
 
     const form = {
         accountInputDTO: {
+            username: inputArray.find(i => i.id === 'name_input')?.value,
             email: inputArray.find(i => i.id === 'email_input')?.value
         },
         identityInputDTO: {
@@ -46,7 +47,8 @@ btn.addEventListener("click", async ()=>{
         const response = await fetch('/api/account/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
             },
             body: JSON.stringify(form),
             credentials: 'include'
@@ -55,7 +57,7 @@ btn.addEventListener("click", async ()=>{
         if (response.ok) {
             document.getElementById("step-1").classList.remove("step_container--shown")
             document.getElementById("step-2").classList.add("step_container--shown")
-            document.getElementById('display-email').textContent = form.email;
+            document.getElementById('display-email').textContent = form.accountInputDTO.email;
             startTimer(60)
             return;
         }

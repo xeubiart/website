@@ -85,6 +85,10 @@ codeBtn.addEventListener("click", async ()=>{
         `/api/account/verify?code=${encodeURIComponent(getCodeFromInputs())}`,
         { 
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
             credentials: 'include'
         }
     );
@@ -119,6 +123,10 @@ refreshCode.addEventListener("click", async ()=>{
         "/api/account/verify/resend",
         {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+            },
             credentials: "include"
         }
     );

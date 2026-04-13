@@ -14,7 +14,8 @@ btn.addEventListener("click", async ()=>{
         const response = await fetch('/api/account/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
             },
             body: JSON.stringify(form),
             credentials: 'include'

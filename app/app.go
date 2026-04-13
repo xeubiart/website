@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	backendClient "xeubiart.com/app/backend"
 	"xeubiart.com/app/router"
-	"xeubiart.com/utils"
 )
 
 type AppMode string
@@ -31,8 +30,6 @@ func New(backendURL, backendGRPCURL string, envMode string) *App {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	// Prepare the target for the ReverseProxy (REST/HTTP)
-	// We ensure it has a scheme so url.Parse doesn't fail
 	proxyTarget := backendURL
 	if !strings.HasPrefix(proxyTarget, "http") {
 		proxyTarget = "http://" + proxyTarget
@@ -47,7 +44,6 @@ func New(backendURL, backendGRPCURL string, envMode string) *App {
 		},
 	}
 
-	// Initialize gRPC Client (this now blocks until healthy)
 	bClient, err := backendClient.NewBackendClient(backendGRPCURL)
 	if err != nil {
 		log.Fatalf("Fatal: Could not connect to gRPC backend: %v", err)
@@ -57,7 +53,6 @@ func New(backendURL, backendGRPCURL string, envMode string) *App {
 		Router:        gin.Default(),
 		BackendClient: bClient,
 		Proxy:         proxy,
-		Client:        utils.NewHttpClient(backendURL),
 	}
 
 	return &App{

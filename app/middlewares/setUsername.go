@@ -14,7 +14,7 @@ func SetUsername(client *backend.BackendClient) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		username := ""
 
-		session, err := c.Request.Cookie("v-session")
+		session, err := c.Request.Cookie("SESSION")
 		if err == nil {
 			username, err = client.GetUsername(c.Request.Context(), session.Value)
 			if err != nil {

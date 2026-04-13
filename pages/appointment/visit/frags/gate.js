@@ -1,3 +1,5 @@
+const MONTHNAMES = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
 // Open on submit appointment
 document.getElementById("appoint_visit_btn").addEventListener("click", ()=>{
     // Show modal
@@ -9,8 +11,10 @@ document.getElementById("appoint_visit_btn").addEventListener("click", ()=>{
     const display = document.getElementById("gateDateText")
     let data = GetAppointmentData(document.getElementById("date-picker"));
 
+    console.log(data)
+
     // Set in the displayer
-    display.innerText = `${data.weekText}, ${data.day} de ${data.month} · ${data.hourFormatted}`
+    display.innerText = `${data.weekText}, ${data.day} de ${MONTHNAMES[data.month]} · ${data.hourFormatted}`
 })
 
 // Close on backdrop click

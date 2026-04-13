@@ -63,6 +63,14 @@ templ TemplatesBase(props Props){
                 ]
             }
         </script>
+
+        <script>
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+        </script>
         <meta name="description" content="Premier tattoo studio in Porto specializing in Fine-line and Blackwork. Book your custom tattoo experience and check artist availability online at Xeubiart.">
 
         <meta property="og:title" content="Xeubiart Studio - Fine-line Tattoos Porto">

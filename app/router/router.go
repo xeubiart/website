@@ -21,8 +21,7 @@ type Router struct {
 	Router        *gin.Engine
 	BackendClient *backendClient.BackendClient
 
-	Client *utils.HttpClient
-	Proxy  *httputil.ReverseProxy
+	Proxy *httputil.ReverseProxy
 }
 
 func (r *Router) RegisterRoutes() {
@@ -69,6 +68,7 @@ func (r *Router) handleProxy(c *gin.Context) {
 
 	// 2. BACKEND PROXY
 	if strings.HasPrefix(path, "/api") {
+		println("askjndaskjdnaskjnd")
 		r.Proxy.ServeHTTP(c.Writer, c.Request)
 		return
 	}

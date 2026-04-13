@@ -7,6 +7,8 @@ RUN git clone https://github.com/xeubiart/infra .
 FROM golang:1.25-alpine AS builder
 RUN apk add --no-cache git ca-certificates
 
+RUN apk add --no-cache git ca-certificates protobuf protobuf-dev
+
 # Install protoc and gen-go dependencies
 RUN apk add --no-cache protobuf
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
